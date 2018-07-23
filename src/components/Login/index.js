@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import Input from '../Input';
+import HttpServices from '../../services/httpServices';
 
 export default class Login extends Component {
     state = {
@@ -15,6 +16,26 @@ export default class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+
+        HttpServices.httpGet('login')
+            .then(response => response.json())
+            .then(res => console.log(res))
+            .catch((err) => console.log(err));
+
+        // fetch('http://localhost:4500/api/v1/login', {
+        //     method: 'post',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     mode: 'cors',
+        //     body: JSON.stringify({
+        //         email: event.target.email.value,
+        //         password: event.target.password.value,
+        //     })
+        // })
+        //     .then(response => response.json())
+        //     .then(res => console.log(res))
+        //     .catch((err) => console.log(err));
     };
 
     render() {
