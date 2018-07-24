@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import Input from '../Input';
-import HttpServices from '../../services/httpServices';
 
 export default class Login extends Component {
     state = {
         email: '',
         password: '',
+        error: false,
+        errorMessage: null,
     };
 
     onUpdate = (event) => {
@@ -17,28 +19,26 @@ export default class Login extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        HttpServices.httpGet('login')
-            .then(response => response.json())
-            .then(res => console.log(res))
-            .catch((err) => console.log(err));
-
-        // fetch('http://localhost:4500/api/v1/login', {
-        //     method: 'post',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     mode: 'cors',
-        //     body: JSON.stringify({
-        //         email: event.target.email.value,
-        //         password: event.target.password.value,
-        //     })
-        // })
-        //     .then(response => response.json())
-        //     .then(res => console.log(res))
-        //     .catch((err) => console.log(err));
+        axios.post('http://localhost:4500/api/v1/login', {
+            email: event.target.email.value,
+            password: event.target.password.value,
+        })
+            .then(res => {
+                const persons = res.data;
+                console.log(persons);
+            })
+            .catch((err) => {
+                this.setState({
+                    error: true,
+                    errorMessage: err.response.data.errors[0].message
+                });
+            });
     };
 
     render() {
+        const err = this.state.error ?
+            <p>{this.state.errorMessage}</p> : '';
+
         return (
             <div className="container login-form">
                 <div className="row">
@@ -57,6 +57,8 @@ export default class Login extends Component {
                                     <Input id="password" type="password" label="Password"
                                            value={this.state.password}
                                            onUpdate={this.onUpdate}/>
+
+                                    {err}
 
                                     <button
                                         type="submit"
