@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import Input from '../Input';
+import HttpService from '../../services/httpServices';
 
 export default class Login extends Component {
     state = {
         email: '',
         password: '',
-        error: false,
+        hasError: false,
         errorMessage: null,
     };
 
@@ -19,24 +19,21 @@ export default class Login extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('http://localhost:4500/api/v1/login', {
+        HttpService.post('login', {
             email: event.target.email.value,
             password: event.target.password.value,
         })
-            .then(res => {
-                const persons = res.data;
-                console.log(persons);
-            })
+            .then(res => this.props.history.push('/'))
             .catch((err) => {
                 this.setState({
-                    error: true,
+                    hasError: true,
                     errorMessage: err.response.data.errors[0].message
                 });
             });
     };
 
     render() {
-        const err = this.state.error ?
+        const err = this.state.hasError ?
             <p>{this.state.errorMessage}</p> : '';
 
         return (
@@ -53,10 +50,14 @@ export default class Login extends Component {
                                 <form onSubmit={this.handleSubmit} className="form-horizontal">
                                     <Input id="email" type="email" label="Email"
                                            value={this.state.email}
-                                           onUpdate={this.onUpdate}/>
+                                           hasError={this.state.hasError}
+                                           onUpdate={this.onUpdate}
+                                    />
                                     <Input id="password" type="password" label="Password"
                                            value={this.state.password}
-                                           onUpdate={this.onUpdate}/>
+                                           hasError={this.state.hasError}
+                                           onUpdate={this.onUpdate}
+                                    />
 
                                     {err}
 

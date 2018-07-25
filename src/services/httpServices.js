@@ -1,13 +1,15 @@
-import BaseHttpService from './httpBaseService';
-import CONSTANTS from './../constants';
+import API from './httpBaseService';
 
-export default class HttpService extends BaseHttpService {
-    static httpGet(endpoint, queryParams = {}) {
-        return super.http(CONSTANTS.HTTP_REQUEST.GET, endpoint, {}, queryParams, {});
+export default class HttpService {
+    static get(endpoint, queryParams = {}) {
+        return API.get(endpoint, {
+            params: queryParams
+        });
     }
 
-    static httpPost(endpoint, body, headers = {}) {
-        console.log(CONSTANTS.HTTP_REQUEST.POST);
-        return super.http(CONSTANTS.HTTP_REQUEST.POST, endpoint, body, {}, headers);
+    static post(endpoint, data, headers = {}) {
+        return API.post(endpoint, data, {
+            headers
+        });
     }
 }

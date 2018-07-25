@@ -14,7 +14,6 @@ export default class RegisterSwitcher extends Component {
     };
 
     render() {
-        console.log(this.state.isBar);
         return (
             <div className="container">
                 <div className="col-md-4 mx-auto">
