@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import Input from '../Input';
 import HttpService from '../../services/httpServices';
+import Auth from '../../services/AuthService';
 
 export default class Login extends Component {
     state = {
@@ -23,7 +24,10 @@ export default class Login extends Component {
             email: event.target.email.value,
             password: event.target.password.value,
         })
-            .then(res => this.props.history.push('/'))
+            .then(res => {
+                Auth.authenticate();
+                return this.props.history.push('/');
+            })
             .catch((err) => {
                 this.setState({
                     hasError: true,

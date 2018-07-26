@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import Input from '../Input';
-import HttpService from '../../services/httpServices';
 
 export default class RegisterBar extends Component {
     state = {
@@ -11,8 +10,6 @@ export default class RegisterBar extends Component {
         password: '',
         confirmPassword: '',
         isBar: true,
-        hasError: false,
-        errorMessage: null,
     };
 
     onUpdate = (event) => {
@@ -22,27 +19,11 @@ export default class RegisterBar extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        HttpService.post('signup', {
-            email: event.target.email.value,
-            barName: event.target.barName.value,
-            phone: event.target.phone.value,
-            password: event.target.password.value,
-            confirmPassword: event.target.confirmPassword.value,
-            isBar: this.state.isBar
-        })
-            .then(res => console.log(res))
-            .catch((err) => {
-                this.setState({
-                    hasError: true,
-                    errorMessage: err.response.data.errors[0].message
-                });
-            });
+        const data = Object.assign({}, this.state);
+        this.props.onSubmit(data);
     };
 
     render() {
-        const err = this.state.hasError ?
-            <p>{this.state.errorMessage}</p> : '';
-
         return (
             <div className="container">
                 <div className="row">
@@ -70,8 +51,6 @@ export default class RegisterBar extends Component {
                                     <Input id="confirmPassword" type="password" label="Confirm Password"
                                            value={this.state.confirmPassword}
                                            onUpdate={this.onUpdate}/>
-
-                                    {err}
 
                                     <button
                                         type="submit"
