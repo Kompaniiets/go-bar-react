@@ -1,11 +1,12 @@
 const AuthService = {
     isAuthenticated: false,
-    authenticate(cb) {
+    authenticate(data) {
         this.isAuthenticated = true;
-        setTimeout(cb, 100)
+        localStorage.setItem('go-bar-user', JSON.stringify(data.data));
     },
     logout(cb) {
         this.isAuthenticated = false;
+        localStorage.removeItem('go-bar-user');
         setTimeout(cb, 100)
     }
 };

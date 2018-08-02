@@ -25,8 +25,10 @@ export default class Login extends Component {
             password: event.target.password.value,
         })
             .then(res => {
-                Auth.authenticate();
-                return this.props.history.push('/');
+                if (res && res.data) {
+                    Auth.authenticate(res.data);
+                    this.props.history.push('/');
+                }
             })
             .catch((err) => {
                 this.setState({
@@ -49,7 +51,6 @@ export default class Login extends Component {
                             <div className="card-header text-center">
                                 <h3 className="mb-0">Login</h3>
                             </div>
-
                             <div className="card-body">
                                 <form onSubmit={this.handleSubmit} className="form-horizontal">
                                     <Input id="email" type="email" label="Email"

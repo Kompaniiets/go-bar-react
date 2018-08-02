@@ -6,31 +6,19 @@ import Register from './Register';
 import SideNavMenu from './SideNavMenu';
 import Auth from '../services/AuthService';
 
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 
 const SecretRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        Auth.isAuthenticated === true
-            ? <Component {...props} />
-            : <Redirect to={{
+        Auth.isAuthenticated ?
+            <Component {...props} /> :
+            <Redirect to={{
                 pathname: '/login',
                 state: { from: props.location }
             }}/>
     )}/>
 );
-
-const AuthStatus = withRouter(({ history }) => (
-    Auth.isAuthenticated ? (
-        <p>
-            Welcome! <button onClick={() => {
-            Auth.logout(() => history.push('/'))
-        }}>Sign out</button>
-        </p>
-    ) : (
-        <p>You are not logged in.</p>
-    )
-));
 
 export default class App extends Component {
     render() {
@@ -38,13 +26,13 @@ export default class App extends Component {
             <Router>
                 <React.Fragment>
                     <Header/>
+                    <SideNavMenu/>
                     <main>
-                        <AuthStatus/>
-                        <SideNavMenu/>
                         <Switch>
                             <Route exact path="/" component={Home}/>
                             <Route path="/login" component={Login}/>
                             <SecretRoute path="/register" component={Register}/>
+                            <Route render={() => (<div> Sorry, this page does not exist. </div>)} />
                         </Switch>
                     </main>
                 </React.Fragment>

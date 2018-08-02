@@ -1,0 +1,13 @@
+.mainNav {
+    display: flex;
+    justify-content: space-evenly;
+    line-height: 44px;
+}
+
+.mainNav a {
+    width: 20%;
+    text-align: center;
+    border-width: 0 2px 0 2px;
+    border-color: white;
+    border-style: solid;
+}

@@ -3,7 +3,7 @@ import API from './httpBaseService';
 export default class HttpService {
     static get(endpoint, queryParams = {}) {
         return API.get(endpoint, {
-            params: queryParams
+            params: queryParams,
         });
     }
 
