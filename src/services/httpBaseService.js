@@ -1,12 +1,13 @@
 import config from '../config';
 import axios from 'axios';
 
-const instance = axios.create();
+const instance = axios.create({
+    baseURL: `${config.url}${config.version}/`
+});
 
 instance.interceptors.request.use((conf) => {
-    conf.baseURL = `${config.url}${config.version}/`;
     conf.headers = {
-        'Authorization': JSON.parse(localStorage.getItem('go-bar-user')).session.accessToken
+        'Authorization': JSON.parse(localStorage.getItem('go-bar-accessToken'))
     };
 
     return conf;

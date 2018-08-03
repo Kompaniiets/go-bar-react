@@ -25,13 +25,14 @@ export default class App extends Component {
         return (
             <Router>
                 <React.Fragment>
-                    <Header/>
-                    <SideNavMenu/>
+                    {this.state.isAuthenticated ? <SideNavMenu/> : <Header/>}
+
                     <main>
                         <Switch>
                             <Route exact path="/" component={Home}/>
                             <Route path="/login" component={Login}/>
-                            <SecretRoute path="/register" component={Register}/>
+                            <Route path="/register" component={Register}/>
+                            {/*<SecretRoute path="/register" component={Register}/>*/}
                             <Route render={() => (<div> Sorry, this page does not exist. </div>)} />
                         </Switch>
                     </main>

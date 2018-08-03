@@ -56,7 +56,7 @@ export default class RegisterBar extends Component {
                                         type="submit"
                                         className="btn btn-success btn-md float-right"
                                         id="btnLogin">
-                                        Login
+                                        Register
                                     </button>
                                 </form>
                             </div>
