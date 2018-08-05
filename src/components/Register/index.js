@@ -18,7 +18,7 @@ export default class RegisterSwitcher extends Component {
 
     onSubmit = (data) => {
         HttpService.post('signup', data)
-            .then(res => this.props.history.push('/'))
+            .then(res => this.props.history.push('/login'))
             .catch((err) => {
                 this.setState({
                     hasError: true,
