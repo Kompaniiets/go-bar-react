@@ -3,18 +3,34 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
 import RegisterBar from '../RegisterBar';
 import RegisterUser from '../RegisterUser';
+import HttpService from '../../services/httpServices';
 
 export default class RegisterSwitcher extends Component {
     state = {
         isBar: false,
+        hasError: false,
+        errorMessage: null
     };
 
     handleChange = () => {
         this.setState({ isBar: !this.state.isBar });
     };
 
+    onSubmit = (data) => {
+        HttpService.post('signup', data)
+            .then(res => this.props.history.push('/'))
+            .catch((err) => {
+                this.setState({
+                    hasError: true,
+                    errorMessage: err.response.data.errors[0].message
+                });
+            });
+    };
+
     render() {
-        console.log(this.state.isBar);
+        const err = this.state.hasError ?
+            <p>{this.state.errorMessage}</p> : '';
+
         return (
             <div className="container">
                 <div className="col-md-4 mx-auto">
@@ -30,8 +46,11 @@ export default class RegisterSwitcher extends Component {
                 </div>
                 <div>
                     {
-                        this.state.isBar ? <RegisterBar /> : <RegisterUser />
+                        this.state.isBar ?
+                            <RegisterBar onSubmit={this.onSubmit} /> :
+                            <RegisterUser onSubmit={this.onSubmit} />
                     }
+                    {err}
                 </div>
             </div>
         )

@@ -8,6 +8,8 @@ export default class RegisterBar extends Component {
         barName: '',
         phone: '',
         password: '',
+        confirmPassword: '',
+        isBar: true,
     };
 
     onUpdate = (event) => {
@@ -16,6 +18,9 @@ export default class RegisterBar extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+
+        const data = Object.assign({}, this.state);
+        this.props.onSubmit(data);
     };
 
     render() {
@@ -43,12 +48,15 @@ export default class RegisterBar extends Component {
                                     <Input id="password" type="password" label="Password"
                                            value={this.state.password}
                                            onUpdate={this.onUpdate}/>
+                                    <Input id="confirmPassword" type="password" label="Confirm Password"
+                                           value={this.state.confirmPassword}
+                                           onUpdate={this.onUpdate}/>
 
                                     <button
                                         type="submit"
                                         className="btn btn-success btn-md float-right"
                                         id="btnLogin">
-                                        Login
+                                        Register
                                     </button>
                                 </form>
                             </div>

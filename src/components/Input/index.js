@@ -10,6 +10,9 @@ export default class Input extends Component {
     };
 
     render() {
+        const style = 'form-control form-control-sm';
+        const classStyle = this.props.hasError ? style + ' is-invalid' : style;
+
         return (
             <div className="form-group">
                 <label>{this.props.label}</label>
@@ -18,7 +21,7 @@ export default class Input extends Component {
                     type={this.props.type}
                     value={this.state.value}
                     onChange={this.handleChange}
-                    className="form-control form-control-sm"
+                    className={classStyle}
                 />
             </div>
         )

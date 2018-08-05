@@ -1,18 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
+import App from './components';
+import './styles/style.css';
+import registerServiceWorker from './registerServiceWorker';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-render(
-    <Router>
-        <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/register" component={Register}/>
-        </Switch>
-    </Router>,
-    document.getElementById('root')
-);
+render(<App/>, document.getElementById('root'));
+registerServiceWorker();

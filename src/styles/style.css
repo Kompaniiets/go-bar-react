@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Nunito Sans', serif;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+    background: #F4F5F1;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
+header, main {
+    margin-left: 64px;
+}
+
+header {
+    background: #db3d44;
+    min-height: 64px;
+    padding: 10px;
+}
