@@ -6,12 +6,16 @@ import HttpService from '../../services/httpServices';
 import Auth from '../../services/AuthService';
 
 export default class Login extends Component {
-    state = {
-        email: '',
-        password: '',
-        hasError: false,
-        errorMessage: null,
-    };
+    constructor() {
+        super();
+        this.AuthService = new Auth();
+        this.state = {
+            email: '',
+            password: '',
+            hasError: false,
+            errorMessage: null,
+        };
+    }
 
     onUpdate = (event) => {
         this.setState({ [event.id]: event.value });
@@ -26,7 +30,8 @@ export default class Login extends Component {
         })
             .then(res => {
                 if (res && res.data) {
-                    Auth.authenticate(res.data);
+                    this.AuthService.setToken(res.data);
+                    this.props.onLogin();
                     this.props.history.push('/');
                 }
             })

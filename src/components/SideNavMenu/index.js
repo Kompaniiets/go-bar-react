@@ -1,11 +1,13 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import StartNavMenu from './StartSideNav';
+import MainSideNav from './MainSideNav';
 
-const SideNavMenu = () => (
+const SideNavMenu = (props) => (
     <Route render={({ location, history }) => (
-        <StartNavMenu location={location} history={history} />
-
+        !props.isAuth
+            ? <StartNavMenu location={location} history={history} />
+            : <MainSideNav location={location} history={history} />
     )}/>
 );
 
