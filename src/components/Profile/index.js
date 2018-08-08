@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
 import HttpService from '../../services/httpServices';
+import ViewProfile from './ViewProfile';
 
 export default class Profile extends Component {
     state = {
@@ -19,7 +19,7 @@ export default class Profile extends Component {
             .catch((err) => {
                 this.setState({
                     hasError: true,
-                    errorMessage: err.response.data.errors[0].message
+                    errorMessage: err
                 });
             });
     }
@@ -30,10 +30,9 @@ export default class Profile extends Component {
 
         console.log(this.state.user);
         return (
-            <div className="container">
+            <div>
                 {err}
-                <p>{this.state.user.id}</p>
-                <p>{this.state.user.email}</p>
+                <ViewProfile user={this.state.user}/>
             </div>
         )
     }

@@ -5,7 +5,7 @@ import MainSideNav from './MainSideNav';
 
 const SideNavMenu = (props) => (
     <Route render={({ location, history }) => (
-        !props.isAuth
+        !props.isAuthenticated
             ? <StartNavMenu location={location} history={history} />
             : <MainSideNav location={location} history={history} />
     )}/>

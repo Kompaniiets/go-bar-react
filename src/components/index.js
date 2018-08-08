@@ -8,7 +8,7 @@ import SideNavMenu from './SideNavMenu';
 import Auth from '../services/AuthService';
 import PrivateRoute from '../services/PrivateRoute';
 
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 export default class App extends Component {
     constructor() {
@@ -44,7 +44,7 @@ export default class App extends Component {
         return (
             <Router>
                 <React.Fragment>
-                    <SideNavMenu isAuth={this.state.isAuthenticated} />
+                    <SideNavMenu isAuthenticated={this.state.isAuthenticated} />
                     <main>
                         <Switch>
                             <Route exact path="/" component={Home}/>

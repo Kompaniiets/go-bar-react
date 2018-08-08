@@ -6,9 +6,9 @@ export default class AuthService {
     }
 
     setToken(data) {
-        localStorage.setItem('go-bar-user', JSON.stringify(data.data));
-        localStorage.setItem('go-bar-session', JSON.stringify(data.data.session));
-        localStorage.setItem('go-bar-accessToken', JSON.stringify(data.data.session.accessToken));
+        localStorage.setItem('go-bar-user', JSON.stringify(data));
+        localStorage.setItem('go-bar-session', JSON.stringify(data.session));
+        localStorage.setItem('go-bar-accessToken', JSON.stringify(data.session.accessToken));
     }
 
     getToken() {
@@ -33,19 +33,3 @@ export default class AuthService {
         localStorage.removeItem('go-bar-accessToken');
     }
 }
-
-// const AuthService = {
-//     isAuthenticated: false,
-//     authenticate(data) {
-//         this.isAuthenticated = true;
-//         localStorage.setItem('go-bar-user', JSON.stringify(data.data));
-//         localStorage.setItem('go-bar-accessToken', JSON.stringify(data.data.session.accessToken));
-//     },
-//     logout(cb) {
-//         this.isAuthenticated = false;
-//         localStorage.removeItem('go-bar-user');
-//         setTimeout(cb, 100)
-//     }
-// };
-//
-// export default AuthService;

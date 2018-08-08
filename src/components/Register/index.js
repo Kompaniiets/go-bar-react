@@ -22,7 +22,7 @@ export default class RegisterSwitcher extends Component {
             .catch((err) => {
                 this.setState({
                     hasError: true,
-                    errorMessage: err.response.data.errors[0].message
+                    errorMessage: err
                 });
             });
     };
