@@ -4,6 +4,7 @@ import './style.css'
 import Input from '../Input';
 import HttpService from '../../services/httpServices';
 import Auth from '../../services/AuthService';
+import FB from './fbLogin';
 
 export default class Login extends Component {
     constructor() {
@@ -71,6 +72,7 @@ export default class Login extends Component {
 
                                     {err}
 
+                                    <FB />
                                     <button
                                         type="submit"
                                         className="btn btn-success btn-md float-right"
