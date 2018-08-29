@@ -4,6 +4,7 @@ import './style.css'
 import Input from '../Input';
 import HttpService from '../../services/httpServices';
 import Auth from '../../services/AuthService';
+import FB from './fbLogin';
 
 export default class Login extends Component {
     constructor() {
@@ -35,12 +36,14 @@ export default class Login extends Component {
                     this.props.history.push('/');
                 }
             })
-            .catch((err) => {
-                this.setState({
-                    hasError: true,
-                    errorMessage: err
-                });
-            });
+            .catch((err) => this.handleError(err));
+    };
+
+    handleError = (err) => {
+        this.setState({
+            hasError: true,
+            errorMessage: err
+        });
     };
 
     render() {
@@ -71,6 +74,11 @@ export default class Login extends Component {
 
                                     {err}
 
+                                    <FB
+                                        onLogin={this.props.onLogin}
+                                        {...this.props}
+                                        handleError={this.handleError}
+                                    />
                                     <button
                                         type="submit"
                                         className="btn btn-success btn-md float-right"
