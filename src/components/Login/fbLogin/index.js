@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import HttpService from '../../../services/httpServices';
 import Auth from '../../../services/AuthService';
+import Constants from '../../../constants';
 
 class FacebookComponent extends Component {
     constructor() {
@@ -26,10 +27,10 @@ class FacebookComponent extends Component {
     render() {
         return (
             <FacebookLogin
-                appId="2010455582373439"
+                appId={Constants.facebookAppId}
                 autoLoad={false}
                 size="small"
-                fields="name,email,picture"
+                fields="name,email"
                 scope="public_profile,email"
                 onFailure={this.errorFacebook}
                 callback={this.responseFacebook}
