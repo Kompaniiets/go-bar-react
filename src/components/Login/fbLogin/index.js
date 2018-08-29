@@ -1,59 +1,39 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
+import HttpService from '../../../services/httpServices';
+import Auth from '../../../services/AuthService';
 
 class FacebookComponent extends Component {
-
-    componentDidMount() {
-        this.setFbAsyncInit();
-        this.loadSdkAsynchronously();
-        let fbRoot = document.getElementById('fb-root');
-        if (!fbRoot) {
-            fbRoot = document.createElement('div');
-            fbRoot.id = 'fb-root';
-            document.body.appendChild(fbRoot);
-        }
+    constructor() {
+        super();
+        this.AuthService = new Auth();
     }
 
-    setFbAsyncInit() {
-        window.fbAsyncInit = () => {
-            window.FB.init({
-                version: 'v3.1',
-                appId: "2010455582373439",
-                xfbml: true,
-            });
-        };
-    }
-
-    loadSdkAsynchronously() {
-        ((d, s, id) => {
-            const element = d.getElementsByTagName(s)[0];
-            const fjs = element;
-            let js = element;
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'facebook-jssdk');
-    }
-
-    responseFacebook = () => {
-        window.FB.login((response) => {
-            if (response.authResponse) {
-                console.log('Welcome!  Fetching your information.... ');
-                window.FB.api('/me', (response) => {
-                    console.log('Good to see you, ' + response.name + '.');
-                });
-            } else {
-                console.log('User cancelled login or did not fully authorize.');
-            }
-        }, {scope: 'public_profile,email'});
+    responseFacebook = (res) => {
+        HttpService.post('fb/login', res)
+            .then(res => {
+                if (res && res.data) {
+                    this.AuthService.setToken(res.data);
+                    this.props.onLogin();
+                    this.props.history.push('/');
+                }
+            })
+            .catch((err) => this.props.handleError(err));
     };
+
+    errorFacebook = (err) => console.log(err);
 
     render() {
         return (
-            <div>
-                <button onClick={this.responseFacebook}>FB</button>
-            </div>
+            <FacebookLogin
+                appId="2010455582373439"
+                autoLoad={false}
+                size="small"
+                fields="name,email,picture"
+                scope="public_profile,email"
+                onFailure={this.errorFacebook}
+                callback={this.responseFacebook}
+            />
         )
     }
 }

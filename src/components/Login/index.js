@@ -36,12 +36,14 @@ export default class Login extends Component {
                     this.props.history.push('/');
                 }
             })
-            .catch((err) => {
-                this.setState({
-                    hasError: true,
-                    errorMessage: err
-                });
-            });
+            .catch((err) => this.handleError(err));
+    };
+
+    handleError = (err) => {
+        this.setState({
+            hasError: true,
+            errorMessage: err
+        });
     };
 
     render() {
@@ -72,7 +74,11 @@ export default class Login extends Component {
 
                                     {err}
 
-                                    <FB />
+                                    <FB
+                                        onLogin={this.props.onLogin}
+                                        {...this.props}
+                                        handleError={this.handleError}
+                                    />
                                     <button
                                         type="submit"
                                         className="btn btn-success btn-md float-right"
