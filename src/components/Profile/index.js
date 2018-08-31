@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
 import HttpService from '../../services/httpServices';
 import ViewProfile from './ViewProfile';
+import Auth from '../../services/AuthService';
 
 export default class Profile extends Component {
-    state = {
-        user: {},
-        hasError: false,
-        errorMessage: null
-    };
+    constructor() {
+        super();
+        this.AuthService = new Auth();
+        this.state = {
+            user: {},
+            hasError: false,
+            errorMessage: null
+        };
+    }
 
     componentDidMount() {
         HttpService.get('users/me')
             .then(res => {
+                console.log('okokok');
                 this.setState({
                     user: res.data
                 });
             })
             .catch((err) => {
+                console.log('erororororo');
                 this.setState({
                     hasError: true,
                     errorMessage: err
                 });
+                // this.props.onLogin();
             });
     }
 
@@ -28,7 +36,6 @@ export default class Profile extends Component {
         const err = this.state.hasError ?
             <p>{this.state.errorMessage}</p> : '';
 
-        console.log(this.state.user);
         return (
             <div>
                 {err}

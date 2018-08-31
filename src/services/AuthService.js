@@ -1,3 +1,6 @@
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory();
+
 export default class AuthService {
     loggedIn() {
         const token = this.getToken();
@@ -31,5 +34,6 @@ export default class AuthService {
         localStorage.removeItem('go-bar-user');
         localStorage.removeItem('go-bar-session');
         localStorage.removeItem('go-bar-accessToken');
+        history.push('/login');
     }
 }
