@@ -13,16 +13,22 @@ class FacebookComponent extends Component {
     responseFacebook = (res) => {
         HttpService.post('fb/login', res)
             .then(res => {
-                if (res && res.data && res.data.isBar === null) {
-                    
+                if (res.data && res.data.isBar === null) {
+                    const result = window.confirm('Login as bar?');
+                    console.log(result);
+                    return HttpService.patch('role', {role: result})
+                        .then((user) => user);
                 }
-                if (res && res.data) {
+                return res;
+            })
+            .then((user) => {
+                if (user.data) {
                     this.AuthService.setToken(res.data);
                     this.props.onLogin();
                     this.props.history.push('/');
                 }
             })
-            .catch((err) => this.props.handleError(err));
+            .catch((err) => console.log(err));
     };
 
     errorFacebook = (err) => console.log(err);

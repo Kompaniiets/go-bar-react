@@ -12,4 +12,10 @@ export default class HttpService {
             headers
         });
     }
+
+    static patch(endpoint, data, headers = {}) {
+        return API.patch(endpoint, data, {
+            headers
+        });
+    }
 }
