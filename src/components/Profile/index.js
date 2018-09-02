@@ -17,13 +17,11 @@ export default class Profile extends Component {
     componentDidMount() {
         HttpService.get('users/me')
             .then(res => {
-                console.log('okokok');
                 this.setState({
                     user: res.data
                 });
             })
             .catch((err) => {
-                console.log('erororororo');
                 this.setState({
                     hasError: true,
                     errorMessage: err

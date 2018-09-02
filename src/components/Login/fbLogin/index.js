@@ -13,6 +13,9 @@ class FacebookComponent extends Component {
     responseFacebook = (res) => {
         HttpService.post('fb/login', res)
             .then(res => {
+                if (res && res.data && res.data.isBar === null) {
+                    
+                }
                 if (res && res.data) {
                     this.AuthService.setToken(res.data);
                     this.props.onLogin();

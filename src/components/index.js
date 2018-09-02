@@ -24,7 +24,6 @@ export default class App extends Component {
     }
 
     onLogin = () => {
-        console.log('onLogin');
         this.checkLogin();
     };
 
@@ -48,14 +47,16 @@ export default class App extends Component {
                     <SideNavMenu isAuthenticated={this.state.isAuthenticated} />
                     <main>
                         <Switch>
-                            <Route exact path="/" component={Home}/>
+                            <Route exact path="/" render={(props) => (
+                                <Home onLogin={this.onLogin} {...props} />
+                            )}/>
                             <Route path="/login" render={(props) => (
                                 <Login onLogin={this.onLogin} {...props} />
                             )}/>
                             <Route path="/register" component={Register}/>
                             <PrivateRoute path="/profile" component={Profile} onLogin={this.onLogin} />
+                            {/*<PrivateRoute path="/logout" component={Logout}/>*/}
 
-                            {/*<PrivateRoute path="/logout" component={Register}/>*/}
                             <Route render={() => (<div> Sorry, this page does not exist. </div>)} />
                         </Switch>
                     </main>
