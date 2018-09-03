@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import HttpService from '../../services/httpServices';
 import ViewProfile from './ViewProfile';
-import Auth from '../../services/AuthService';
 
 export default class Profile extends Component {
     constructor() {
         super();
-        this.AuthService = new Auth();
         this.state = {
             user: {},
             hasError: false,
@@ -26,7 +24,6 @@ export default class Profile extends Component {
                     hasError: true,
                     errorMessage: err
                 });
-                // this.props.onLogin();
             });
     }
 

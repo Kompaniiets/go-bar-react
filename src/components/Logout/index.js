@@ -1,11 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import HttpService from '../../services/httpServices';
-import AuthService from '../../services/AuthService';
+import { Auth } from '../../services/AuthService';
 
 export default function Logout(props) {
     HttpService.post('logout', {})
         .then(() => {
-            const Auth = new AuthService();
             Auth.logout();
             props.history.replace('/');
         })

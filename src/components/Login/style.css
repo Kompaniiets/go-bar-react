@@ -1,3 +1,7 @@
 .login-form {
-    margin-top: 150px;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
 }

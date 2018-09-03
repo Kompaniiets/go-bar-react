@@ -1,39 +1,48 @@
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory();
 
-export default class AuthService {
-    loggedIn() {
-        const token = this.getToken();
-        const session = this.getSession();
-        return !!token && !this.isTokenExpired(session)
-    }
+export const Auth = {
+    loggedIn,
+    logout,
+    setToken,
+    getProfile,
+};
 
-    setToken(data) {
-        localStorage.setItem('go-bar-user', JSON.stringify(data));
-        localStorage.setItem('go-bar-session', JSON.stringify(data.session));
-        localStorage.setItem('go-bar-accessToken', JSON.stringify(data.session.accessToken));
-    }
+export let isAuth = false;
 
-    getToken() {
-        return localStorage.getItem('go-bar-accessToken')
-    }
+function loggedIn() {
+    const token = getToken();
+    const session = getSession();
+    return !!token && !isTokenExpired(session)
+}
 
-    getSession() {
-        return localStorage.getItem('go-bar-session')
-    }
+function setToken(data) {
+    localStorage.setItem('go-bar-user', JSON.stringify(data));
+    localStorage.setItem('go-bar-session', JSON.stringify(data.session));
+    localStorage.setItem('go-bar-accessToken', JSON.stringify(data.session.accessToken));
+    isAuth = true;
+}
 
-    getProfile() {
-        return localStorage.getItem('go-bar-user')
-    }
+function getProfile() {
+    return localStorage.getItem('go-bar-user')
+}
 
-    isTokenExpired(session) {
-        return JSON.parse(session) && JSON.parse(session).expiresAt < Date.now();
-    }
+function logout() {
+    localStorage.removeItem('go-bar-user');
+    localStorage.removeItem('go-bar-session');
+    localStorage.removeItem('go-bar-accessToken');
+    isAuth = false;
+    history.push('/login');
+}
 
-    logout() {
-        localStorage.removeItem('go-bar-user');
-        localStorage.removeItem('go-bar-session');
-        localStorage.removeItem('go-bar-accessToken');
-        history.push('/login');
-    }
+function getToken() {
+    return localStorage.getItem('go-bar-accessToken')
+}
+
+function getSession() {
+    return localStorage.getItem('go-bar-session')
+}
+
+function isTokenExpired(session) {
+    return JSON.parse(session) && JSON.parse(session).expiresAt < Date.now();
 }

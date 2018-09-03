@@ -5,7 +5,7 @@ import Register from './Register';
 import Profile from './Profile';
 import SideNavMenu from './SideNavMenu';
 
-import Auth from '../services/AuthService';
+import { Auth } from '../services/AuthService';
 import PrivateRoute from '../services/PrivateRoute';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -13,7 +13,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 export default class App extends Component {
     constructor() {
         super();
-        this.AuthService = new Auth();
         this.state = {
             isAuthenticated: false
         };
@@ -28,12 +27,12 @@ export default class App extends Component {
     };
 
     checkLogin() {
-        if(this.AuthService.loggedIn()) {
+        if (Auth.loggedIn()) {
             this.setState({
                 isAuthenticated: true
             });
         } else {
-            this.AuthService.logout();
+            Auth.logout();
             this.setState({
                 isAuthenticated: false
             });
@@ -44,7 +43,7 @@ export default class App extends Component {
         return (
             <Router>
                 <React.Fragment>
-                    <SideNavMenu isAuthenticated={this.state.isAuthenticated} />
+                    <SideNavMenu isAuthenticated={this.state.isAuthenticated}/>
                     <main>
                         <Switch>
                             <Route exact path="/" render={(props) => (
@@ -54,10 +53,9 @@ export default class App extends Component {
                                 <Login onLogin={this.onLogin} {...props} />
                             )}/>
                             <Route path="/register" component={Register}/>
-                            <PrivateRoute path="/profile" component={Profile} onLogin={this.onLogin} />
-                            {/*<PrivateRoute path="/logout" component={Logout}/>*/}
+                            <PrivateRoute path="/profile" component={Profile} onLogin={this.onLogin}/>
 
-                            <Route render={() => (<div> Sorry, this page does not exist. </div>)} />
+                            <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
                         </Switch>
                     </main>
                 </React.Fragment>

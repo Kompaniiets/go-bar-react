@@ -1,33 +1,26 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import HttpService from '../../../services/httpServices';
-import Auth from '../../../services/AuthService';
+import { Auth } from '../../../services/AuthService';
 import Constants from '../../../constants';
 
 class FacebookComponent extends Component {
-    constructor() {
-        super();
-        this.AuthService = new Auth();
-    }
-
     responseFacebook = (res) => {
         HttpService.post('fb/login', res)
-            .then(res => {
-                if (res.data && res.data.isBar === null) {
-                    const result = window.confirm('Login as bar?');
-                    console.log(result);
-                    return HttpService.patch('role', {role: result})
-                        .then((user) => user);
-                }
-                return res;
+            .then(user => {
+                if (!user.data)
+                    return;
+
+                Auth.setToken(user.data);
+                return user;
             })
             .then((user) => {
-                if (user.data) {
-                    this.AuthService.setToken(res.data);
-                    this.props.onLogin();
-                    this.props.history.push('/');
+                if (user.data && user.data.isBar === null) {
+                    const result = (window.confirm('Login as bar?')).toString();
+                    return HttpService.patch('users/role', { isBar: result })
                 }
             })
+            .then(() => this.props.history.push('/'))
             .catch((err) => console.log(err));
     };
 
@@ -43,6 +36,9 @@ class FacebookComponent extends Component {
                 scope="public_profile,email"
                 onFailure={this.errorFacebook}
                 callback={this.responseFacebook}
+                textButton=""
+                cssClass="facebook-btn-class"
+                icon="fa-facebook"
             />
         )
     }

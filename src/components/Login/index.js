@@ -3,13 +3,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import Input from '../Input';
 import HttpService from '../../services/httpServices';
-import Auth from '../../services/AuthService';
+import { Auth } from '../../services/AuthService';
 import FB from './fbLogin';
 
 export default class Login extends Component {
     constructor() {
         super();
-        this.AuthService = new Auth();
         this.state = {
             email: '',
             password: '',
@@ -30,9 +29,9 @@ export default class Login extends Component {
             password: event.target.password.value,
         })
             .then(res => {
-                if (res && res.data) {
-                    this.AuthService.setToken(res.data);
-                    this.props.onLogin();
+                if (res.data) {
+                    Auth.setToken(res.data);
+                    // this.props.onLogin();
                     this.props.history.push('/');
                 }
             })
@@ -52,44 +51,40 @@ export default class Login extends Component {
 
         return (
             <div className="container login-form">
-                <div className="row">
-                    <div className="col-md-4 mx-auto">
-                        <div className="card rounded-0">
+                <div className="card rounded-0 form-width">
 
-                            <div className="card-header text-center">
-                                <h3 className="mb-0">Login</h3>
-                            </div>
-                            <div className="card-body">
-                                <form onSubmit={this.handleSubmit} className="form-horizontal">
-                                    <Input id="email" type="email" label="Email"
-                                           value={this.state.email}
-                                           hasError={this.state.hasError}
-                                           onUpdate={this.onUpdate}
-                                    />
-                                    <Input id="password" type="password" label="Password"
-                                           value={this.state.password}
-                                           hasError={this.state.hasError}
-                                           onUpdate={this.onUpdate}
-                                    />
-
-                                    {err}
-
-                                    <FB
-                                        onLogin={this.props.onLogin}
-                                        {...this.props}
-                                        handleError={this.handleError}
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="btn btn-success btn-md float-right"
-                                        id="btnLogin">
-                                        Login
-                                    </button>
-                                </form>
-                            </div>
-
-                        </div>
+                    <div className="card-header text-center">
+                        <h3 className="mb-0">Login</h3>
                     </div>
+                    <div className="card-body">
+                        <form onSubmit={this.handleSubmit} className="form-horizontal">
+                            <Input id="email" type="email" label="Email"
+                                   value={this.state.email}
+                                   hasError={this.state.hasError}
+                                   onUpdate={this.onUpdate}
+                            />
+                            <Input id="password" type="password" label="Password"
+                                   value={this.state.password}
+                                   hasError={this.state.hasError}
+                                   onUpdate={this.onUpdate}
+                            />
+
+                            {err}
+
+                            <FB
+                                onLogin={this.props.onLogin}
+                                {...this.props}
+                                handleError={this.handleError}
+                            />
+                            <button
+                                type="submit"
+                                className="btn btn-success btn-md float-right"
+                                id="btnLogin">
+                                Login
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         )
