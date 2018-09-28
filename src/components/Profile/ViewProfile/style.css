@@ -1,0 +1,13 @@
+.profile-details {
+    width: 350px;
+}
+
+.profile-details .form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-details input {
+    max-width: 200px;
+}

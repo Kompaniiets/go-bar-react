@@ -11,49 +11,21 @@ import PrivateRoute from '../services/PrivateRoute';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 export default class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            isAuthenticated: false
-        };
-    }
-
     componentDidMount() {
-        this.checkLogin();
-    }
-
-    onLogin = () => {
-        this.checkLogin();
-    };
-
-    checkLogin() {
-        if (Auth.loggedIn()) {
-            this.setState({
-                isAuthenticated: true
-            });
-        } else {
-            Auth.logout();
-            this.setState({
-                isAuthenticated: false
-            });
-        }
+        Auth.loggedIn();
     }
 
     render() {
         return (
             <Router>
                 <React.Fragment>
-                    <SideNavMenu isAuthenticated={this.state.isAuthenticated}/>
+                    <SideNavMenu/>
                     <main>
                         <Switch>
-                            <Route exact path="/" render={(props) => (
-                                <Home onLogin={this.onLogin} {...props} />
-                            )}/>
-                            <Route path="/login" render={(props) => (
-                                <Login onLogin={this.onLogin} {...props} />
-                            )}/>
+                            <Route exact path="/" component={Home}/>
+                            <Route path="/login" component={Login}/>
                             <Route path="/register" component={Register}/>
-                            <PrivateRoute path="/profile" component={Profile} onLogin={this.onLogin}/>
+                            <PrivateRoute path="/profile" component={Profile}/>
 
                             <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
                         </Switch>

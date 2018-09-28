@@ -31,7 +31,6 @@ export default class Login extends Component {
             .then(res => {
                 if (res.data) {
                     Auth.setToken(res.data);
-                    // this.props.onLogin();
                     this.props.history.push('/');
                 }
             })
@@ -72,7 +71,6 @@ export default class Login extends Component {
                             {err}
 
                             <FB
-                                onLogin={this.props.onLogin}
                                 {...this.props}
                                 handleError={this.handleError}
                             />

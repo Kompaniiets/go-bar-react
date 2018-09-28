@@ -19,9 +19,10 @@ export default class Input extends Component {
                 <input
                     id={this.props.id}
                     type={this.props.type}
-                    value={this.state.value}
+                    value={this.props.value || this.state.value}
                     onChange={this.handleChange}
                     className={classStyle}
+                    disabled={this.props.disabled || ''}
                 />
             </div>
         )

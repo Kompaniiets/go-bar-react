@@ -1,40 +1,31 @@
 import React, { Component } from 'react';
-import HttpService from '../../services/httpServices';
 import ViewProfile from './ViewProfile';
+import MapContainer from '../Map';
+import HttpService from '../../services/httpServices';
+import { Auth } from '../../services/AuthService';
 
 export default class Profile extends Component {
-    constructor() {
-        super();
-        this.state = {
-            user: {},
-            hasError: false,
-            errorMessage: null
-        };
-    }
 
-    componentDidMount() {
-        HttpService.get('users/me')
-            .then(res => {
-                this.setState({
-                    user: res.data
-                });
-            })
-            .catch((err) => {
-                this.setState({
-                    hasError: true,
-                    errorMessage: err
-                });
-            });
-    }
+    onSubmit = (data) => {
+        if (data.dataType === 'info') {
+            console.log('info');
+            HttpService.patch('users/me', data)
+                .then(res => Auth.updateProfile(res.data))
+                .catch((err) => console.log('err ', err));
+        } else {
+            console.log('locations');
+            HttpService.post('users/locations', data)
+                .then(res => console.log('res ', res))
+                .catch((err) => console.log('err ', err));
+        }
+    };
 
     render() {
-        const err = this.state.hasError ?
-            <p>{this.state.errorMessage}</p> : '';
-
+        const check = JSON.parse(Auth.getProfile());
         return (
             <div>
-                {err}
-                <ViewProfile user={this.state.user}/>
+                <ViewProfile onSubmit={this.onSubmit}/>
+                {check.isBar ? <MapContainer onSubmit={this.onSubmit}/> : ''}
             </div>
         )
     }
