@@ -1,5 +1,7 @@
 .profile-details {
     width: 350px;
+    min-width: 320px;
+    margin: 0 10px;
 }
 
 .profile-details .form-group {

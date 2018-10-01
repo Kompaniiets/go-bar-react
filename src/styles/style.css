@@ -47,8 +47,45 @@ header {
     line-height: 1.5;
     border-radius: 0.25rem;
     -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     -o-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+@media screen and (max-width: 1200px) {
+    .profile-container .profile-location {
+        width: 500px;
+        height: 300px;
+    }
+    .profile-container .profile-details {
+        margin: 0 10px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .profile-container .profile-location {
+        width: 400px;
+        height: 230px;
+    }
+    .profile-container {
+        margin: 0 auto;
+    }
+    .profile-container .profile-details {
+        margin: 0 10px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-container .profile-details {
+        margin: 0 10px 20px;
+    }
+}
+
+.map-style {
+    position: relative !important;
+    margin-bottom: 10px;
 }
