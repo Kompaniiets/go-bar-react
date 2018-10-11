@@ -4,44 +4,36 @@ const history = createBrowserHistory();
 export const Auth = {
     loggedIn,
     logout,
-    setToken,
-    updateProfile,
+    setStorage,
     getProfile,
 };
 
 function loggedIn() {
-    return !!getToken() && !isTokenExpired(getSession());
+    return (!!getProfile() && !!getSession()) ? (!!getToken() && !isTokenExpired(getSession())) : false;
 }
 
-function setToken(data) {
-    localStorage.setItem('go-bar-user', JSON.stringify(data));
-    localStorage.setItem('go-bar-session', JSON.stringify(data.session));
-    localStorage.setItem('go-bar-accessToken', JSON.stringify(data.session.accessToken));
-}
-
-function updateProfile(data) {
+function setStorage(data) {
     localStorage.setItem('go-bar-user', JSON.stringify(data));
 }
 
 function getProfile() {
-    return localStorage.getItem('go-bar-user');
+    return JSON.parse(localStorage.getItem('go-bar-user'));
 }
 
 function logout() {
     localStorage.removeItem('go-bar-user');
-    localStorage.removeItem('go-bar-session');
-    localStorage.removeItem('go-bar-accessToken');
     history.push('/login');
 }
 
 function getToken() {
-    return localStorage.getItem('go-bar-accessToken');
+    return getProfile().session.accessToken;
 }
 
 function getSession() {
-    return localStorage.getItem('go-bar-session');
+    return getProfile().session;
 }
 
 function isTokenExpired(session) {
-    return JSON.parse(session) && JSON.parse(session).expiresAt < Date.now();
+    return session && session.expiresAt < Date.now();
 }
+

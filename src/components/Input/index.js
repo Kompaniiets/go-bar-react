@@ -5,7 +5,16 @@ export default class Input extends Component {
     state = { value: '' };
 
     handleChange = (event) => {
-        this.props.onUpdate(event.target);
+        const data = {
+            id: event.target.id,
+            value: event.target.value
+        };
+
+        if (this.props.dataKey !== undefined) {
+            data.key = this.props.dataKey;
+        }
+
+        this.props.onUpdate(data);
         this.setState({ value: event.target.value });
     };
 

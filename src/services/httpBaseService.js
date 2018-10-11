@@ -8,7 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((conf) => {
     conf.headers = {
-        'Authorization': JSON.parse(localStorage.getItem('go-bar-accessToken'))
+        'Authorization': Auth.getProfile() ? Auth.getProfile().session.accessToken : '',
     };
 
     return conf;

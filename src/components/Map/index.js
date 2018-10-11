@@ -4,6 +4,7 @@ import GetCurrentLocation from '../../helpers/getCurrentLocation';
 import config from './../../config';
 import MarkerInfoContainer from './MarkerInfo';
 import MarkerDataContainer from './MarkerData';
+import HttpService from '../../services/httpServices';
 import './style.css';
 
 export class MapContainer extends Component {
@@ -11,31 +12,38 @@ export class MapContainer extends Component {
         showingInfoWindow: false,
         activeMarker: {},
         selectedPlace: {},
-        center: { },
-        markers: [
-            {
-                title: 'one',
-                name: 'name 1',
-                position: {
-                    lat: 49.988457,
-                    lng: 36.232417
-                }
-            },
-            {
-                title: 'two',
-                name: 'name 2',
-                position: {
-                    lat: 49.985856,
-                    lng: 36.227568
-                }
-            }
-        ]
+        center: {},
+        markers: []
+    };
+
+    componentDidMount() {
+        GetCurrentLocation()
+            .then((location) => this.setState({
+                center: location,
+            })).catch((error) => console.log('Can`t get current geo location ', error));
+
+        this.getUserLocations();
+    }
+
+    getUserLocations = () => {
+        HttpService.get('users/locations')
+            .then(res => {
+                const arr = res.data.map(item => {
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        info: item.info,
+                        lat: item.lat,
+                        lng: item.lng,
+                    }
+                });
+
+                this.setState({ markers: arr });
+            })
+            .catch((err) => console.log('err ', err));
     };
 
     onMarkerClick = (props, marker, e) => {
-        console.log(props);
-        console.log(marker);
-        console.log(e);
         this.setState({
             selectedPlace: props,
             activeMarker: marker,
@@ -49,7 +57,7 @@ export class MapContainer extends Component {
         });
     };
 
-    onMapClicked = async (props, map, coord) => {
+    onMapClicked = (props, map, coord) => {
         let { latLng } = coord;
         const lat = latLng.lat(), lng = latLng.lng();
 
@@ -60,9 +68,11 @@ export class MapContainer extends Component {
                     markers: [
                         ...previousState.markers,
                         {
-                            title: '',
-                            name: '',
-                            position: { lat, lng }
+                            id: null,
+                            title: 'Title',
+                            info: '',
+                            lat,
+                            lng
                         }
                     ]
                 };
@@ -70,16 +80,20 @@ export class MapContainer extends Component {
         }
     };
 
-    componentDidMount() {
-        GetCurrentLocation()
-            .then((location) => this.setState({
-                center: location,
-            })).catch((error) => console.log('Can`t get current geo location ', error));
-    }
+    onUpdate = (arr) => {
+        this.setState({ markers: arr });
+    };
 
-    onUpdate = (event) => {
-        // console.log(event);
-        // console.log('------------');
+    onMarkerDelete = (index) => {
+        const arr = Array.from(this.state.markers);
+        arr.splice(index, 1);
+
+        this.setState({ markers: arr });
+    };
+
+    onSaveMarker = (index) => {
+        const arr = this.state.markers[index];
+        this.props.onSubmit(arr, 'locations');
     };
 
     render() {
@@ -94,8 +108,8 @@ export class MapContainer extends Component {
                         <Marker
                             key={index}
                             title={marker.title}
-                            name={marker.name}
-                            position={marker.position}
+                            name={marker.info}
+                            position={{ lat: marker.lat, lng: marker.lng }}
                             onClick={this.onMarkerClick}
                         />
                     ))}
@@ -104,12 +118,11 @@ export class MapContainer extends Component {
                         onClose={this.onInfoWindowClose}
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}>
-                        <div>
-                            <MarkerInfoContainer place={this.state.selectedPlace} />
-                        </div>
+                        <MarkerInfoContainer place={this.state.selectedPlace}/>
                     </InfoWindow>
                 </Map>
-                <MarkerDataContainer markers={this.state.markers} onUpdate={this.onUpdate} />
+                <MarkerDataContainer markers={this.state.markers} onUpdate={this.onUpdate}
+                                     onDelete={this.onMarkerDelete} onSaveMarker={this.onSaveMarker}/>
             </React.Fragment>
         );
     }

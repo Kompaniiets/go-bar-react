@@ -11,7 +11,7 @@ class FacebookComponent extends Component {
                 if (!user.data)
                     return;
 
-                Auth.setToken(user.data);
+                Auth.setStorage(user.data);
                 return user;
             })
             .then((user) => {

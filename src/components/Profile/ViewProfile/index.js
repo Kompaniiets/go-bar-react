@@ -12,7 +12,7 @@ export default class ViewProfile extends Component {
         lastName: '',
         barName: '',
         phone: '',
-        isBar: false,
+        isBar: this.props.isBar,
         createdAt: new Date(),
         updatedAt: new Date(),
         hasError: false,
@@ -33,8 +33,7 @@ export default class ViewProfile extends Component {
         event.preventDefault();
 
         const data = Object.assign({}, this.state);
-        data.dataType = 'info';
-        this.props.onSubmit(data);
+        this.props.onSubmit(data, 'info');
     };
 
     onUpdate = (event) => {
@@ -60,20 +59,42 @@ export default class ViewProfile extends Component {
                                    onUpdate={this.onUpdate}
                             />
                         </li>
-                        <li>
-                            <Input id="firstName" type="text" label="First Name:"
-                                   value={this.state.firstName}
-                                   hasError={this.state.hasError}
-                                   onUpdate={this.onUpdate}
-                            />
-                        </li>
-                        <li>
-                            <Input id="lastName" type="text" label="Last Name:"
-                                   value={this.state.lastName}
-                                   hasError={this.state.hasError}
-                                   onUpdate={this.onUpdate}
-                            />
-                        </li>
+                        {
+                            !this.props.isBar ?
+                                <React.Fragment>
+                                    <li>
+                                        <Input id="firstName" type="text" label="First Name:"
+                                               value={this.state.firstName}
+                                               hasError={this.state.hasError}
+                                               onUpdate={this.onUpdate}
+                                        />
+                                    </li>
+                                    <li>
+                                        <Input id="lastName" type="text" label="Last Name:"
+                                               value={this.state.lastName}
+                                               hasError={this.state.hasError}
+                                               onUpdate={this.onUpdate}
+                                        />
+                                    </li>
+                                </React.Fragment>
+                                :
+                                <React.Fragment>
+                                    <li>
+                                        <Input id="barName" type="text" label="Bar Name:"
+                                               value={this.state.barName}
+                                               hasError={this.state.hasError}
+                                               onUpdate={this.onUpdate}
+                                        />
+                                    </li>
+                                    <li>
+                                        <Input id="phone" type="tel" label="Phone:"
+                                               value={this.state.phone}
+                                               hasError={this.state.hasError}
+                                               onUpdate={this.onUpdate}
+                                        />
+                                    </li>
+                                </React.Fragment>
+                        }
                         <li>
                             <Input id="createdAt" type="text" label="Created at:" disabled="disabled"
                                    value={new Date(this.state.createdAt).toLocaleString()}

@@ -30,7 +30,7 @@ export default class Login extends Component {
         })
             .then(res => {
                 if (res.data) {
-                    Auth.setToken(res.data);
+                    Auth.setStorage(res.data);
                     this.props.history.push('/');
                 }
             })

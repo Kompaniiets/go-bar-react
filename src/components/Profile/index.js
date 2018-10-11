@@ -6,14 +6,12 @@ import { Auth } from '../../services/AuthService';
 import './style.css';
 
 export default class Profile extends Component {
-    onSubmit = (data) => {
-        if (data.dataType === 'info') {
-            console.log('info');
+    onSubmit = (data, type) => {
+        if (type === 'info') {
             HttpService.patch('users/me', data)
-                .then(res => Auth.updateProfile(res.data))
+                .then(res => Auth.setStorage(res.data))
                 .catch((err) => console.log('err ', err));
         } else {
-            console.log('locations');
             HttpService.post('users/locations', data)
                 .then(res => console.log('res ', res))
                 .catch((err) => console.log('err ', err));
@@ -21,10 +19,10 @@ export default class Profile extends Component {
     };
 
     render() {
-        const check = JSON.parse(Auth.getProfile());
+        const check = Auth.getProfile();
         return (
             <div className="profile-container">
-                <ViewProfile onSubmit={this.onSubmit}/>
+                <ViewProfile onSubmit={this.onSubmit} isBar={check.isBar}/>
 
                 {check.isBar ?
                     <div className="profile-location">

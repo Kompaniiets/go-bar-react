@@ -1,15 +1,23 @@
 .marker-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .marker-data {
-    width: 250px;
+    width: 200px;
+    margin-right: 20px;
 }
 
 .marker-container .form-group {
     display: flex;
     align-items: baseline;
     margin-bottom: 5px;
+}
+
+.marker-btn {
+    text-align: right;
+}
+
+.marker-data button {
+    margin-right: 10px;
 }
