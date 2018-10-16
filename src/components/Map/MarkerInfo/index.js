@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import './style.css';
 
 export default class ViewProfile extends Component {
     render() {
         return (
             <div>
-                <h5>{this.props.place.title}</h5>
-                <p>{this.props.place.name}</p>
+                <p className="title">{this.props.place.title}</p>
+                <span>{this.props.place.opensIn} - {this.props.place.closesIn}</span>
+                <br/>
+                <span>{this.props.place.name}</span>
             </div>
         )
     }

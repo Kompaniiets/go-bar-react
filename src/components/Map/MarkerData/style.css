@@ -4,14 +4,20 @@
 }
 
 .marker-data {
-    width: 200px;
-    margin-right: 20px;
+    width: 230px;
+    margin-right: 10px;
+}
+
+.marker-data p {
+    margin: 0;
+    text-align: center;
 }
 
 .marker-container .form-group {
     display: flex;
     align-items: baseline;
     margin-bottom: 5px;
+    justify-content: space-between;
 }
 
 .marker-btn {
@@ -20,4 +26,8 @@
 
 .marker-data button {
     margin-right: 10px;
+}
+
+.form-group input {
+    width: 160px;
 }

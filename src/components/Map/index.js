@@ -1,27 +1,15 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import GetCurrentLocation from '../../helpers/getCurrentLocation';
-import config from './../../config';
-import MarkerInfoContainer from './MarkerInfo';
 import MarkerDataContainer from './MarkerData';
 import HttpService from '../../services/httpServices';
+import GoogleMap from './GoogleMap';
 import './style.css';
 
-export class MapContainer extends Component {
+export default class MapContainer extends Component {
     state = {
-        showingInfoWindow: false,
-        activeMarker: {},
-        selectedPlace: {},
-        center: {},
         markers: []
     };
 
     componentDidMount() {
-        GetCurrentLocation()
-            .then((location) => this.setState({
-                center: location,
-            })).catch((error) => console.log('Can`t get current geo location ', error));
-
         this.getUserLocations();
     }
 
@@ -33,6 +21,9 @@ export class MapContainer extends Component {
                         id: item.id,
                         title: item.title,
                         info: item.info,
+                        opensIn: item.opensIn,
+                        closesIn: item.closesIn,
+                        numberOfTables: item.numberOfTables,
                         lat: item.lat,
                         lng: item.lng,
                     }
@@ -43,20 +34,6 @@ export class MapContainer extends Component {
             .catch((err) => console.log('err ', err));
     };
 
-    onMarkerClick = (props, marker, e) => {
-        this.setState({
-            selectedPlace: props,
-            activeMarker: marker,
-            showingInfoWindow: true
-        });
-    };
-
-    onInfoWindowClose = () => {
-        this.setState({
-            showingInfoWindow: false
-        });
-    };
-
     onMapClicked = (props, map, coord) => {
         let { latLng } = coord;
         const lat = latLng.lat(), lng = latLng.lng();
@@ -64,13 +41,15 @@ export class MapContainer extends Component {
         if (this.state.markers.length < 10) {
             this.setState(previousState => {
                 return {
-                    showingInfoWindow: false,
                     markers: [
                         ...previousState.markers,
                         {
                             id: null,
                             title: 'Title',
                             info: '',
+                            opensIn: '',
+                            closesIn: '',
+                            numberOfTables: 1,
                             lat,
                             lng
                         }
@@ -85,6 +64,18 @@ export class MapContainer extends Component {
     };
 
     onMarkerDelete = (index) => {
+        const item = this.state.markers[index];
+        if (item.id === null) {
+            this.deleteLocationFromArray(index);
+            return;
+        }
+
+        HttpService.del(`users/locations/${item.id}`)
+            .then(() => this.deleteLocationFromArray(index))
+            .catch((err) => console.log('err ', err));
+    };
+
+    deleteLocationFromArray = (index) => {
         const arr = Array.from(this.state.markers);
         arr.splice(index, 1);
 
@@ -99,35 +90,10 @@ export class MapContainer extends Component {
     render() {
         return (
             <React.Fragment>
-                <Map google={this.props.google} zoom={14}
-                     onClick={this.onMapClicked}
-                     center={this.state.center}
-                     className={'map-style'}>
-
-                    {this.state.markers.map((marker, index) => (
-                        <Marker
-                            key={index}
-                            title={marker.title}
-                            name={marker.info}
-                            position={{ lat: marker.lat, lng: marker.lng }}
-                            onClick={this.onMarkerClick}
-                        />
-                    ))}
-
-                    <InfoWindow
-                        onClose={this.onInfoWindowClose}
-                        marker={this.state.activeMarker}
-                        visible={this.state.showingInfoWindow}>
-                        <MarkerInfoContainer place={this.state.selectedPlace}/>
-                    </InfoWindow>
-                </Map>
+                <GoogleMap onMapClicked={this.onMapClicked} markers={this.state.markers} />
                 <MarkerDataContainer markers={this.state.markers} onUpdate={this.onUpdate}
                                      onDelete={this.onMarkerDelete} onSaveMarker={this.onSaveMarker}/>
             </React.Fragment>
         );
     }
 }
-
-export default GoogleApiWrapper({
-    apiKey: (config.google.API_KEY)
-})(MapContainer)

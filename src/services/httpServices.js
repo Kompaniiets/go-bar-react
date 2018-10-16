@@ -18,4 +18,10 @@ export default class HttpService {
             headers
         });
     }
+
+    static del(endpoint, headers = {}) {
+        return API.delete(endpoint, {
+            headers
+        });
+    }
 }

@@ -19,7 +19,9 @@ export default class ViewProfile extends Component {
     };
 
     onSaveMarker = (event) => {
-        this.props.onSaveMarker(event.target.value);
+        const value = event.target.id === 'numberOfTables' ? parseInt(event.target.value, 10) : event.target.value;
+
+        this.props.onSaveMarker(value);
     };
 
     render() {
@@ -35,6 +37,18 @@ export default class ViewProfile extends Component {
                             />
                             <Input id="info" dataKey={index} type="text" label="Info:"
                                    value={marker.info}
+                                   onUpdate={this.onUpdate}
+                            />
+                            <Input id="opensIn" dataKey={index} type="time" label="Opens in:"
+                                   value={marker.opensIn}
+                                   onUpdate={this.onUpdate}
+                            />
+                            <Input id="closesIn" dataKey={index} type="time" label="Closes in:"
+                                   value={marker.closesIn}
+                                   onUpdate={this.onUpdate}
+                            />
+                            <Input id="numberOfTables" dataKey={index} type="number" label="Num of tables:"
+                                   value={marker.numberOfTables}
                                    onUpdate={this.onUpdate}
                             />
                             <Input id="lat" dataKey={index} type="" label="Lat:"
