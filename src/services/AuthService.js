@@ -1,35 +1,39 @@
-export default class AuthService {
-    loggedIn() {
-        const token = this.getToken();
-        const session = this.getSession();
-        return !!token && !this.isTokenExpired(session)
-    }
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory();
 
-    setToken(data) {
-        localStorage.setItem('go-bar-user', JSON.stringify(data));
-        localStorage.setItem('go-bar-session', JSON.stringify(data.session));
-        localStorage.setItem('go-bar-accessToken', JSON.stringify(data.session.accessToken));
-    }
+export const Auth = {
+    loggedIn,
+    logout,
+    setStorage,
+    getProfile,
+};
 
-    getToken() {
-        return localStorage.getItem('go-bar-accessToken')
-    }
-
-    getSession() {
-        return localStorage.getItem('go-bar-session')
-    }
-
-    getProfile() {
-        return localStorage.getItem('go-bar-user')
-    }
-
-    isTokenExpired(session) {
-        return JSON.parse(session) && JSON.parse(session).expiresAt < Date.now();
-    }
-
-    logout() {
-        localStorage.removeItem('go-bar-user');
-        localStorage.removeItem('go-bar-session');
-        localStorage.removeItem('go-bar-accessToken');
-    }
+function loggedIn() {
+    return (!!getProfile() && !!getSession()) ? (!!getToken() && !isTokenExpired(getSession())) : false;
 }
+
+function setStorage(data) {
+    localStorage.setItem('go-bar-user', JSON.stringify(data));
+}
+
+function getProfile() {
+    return JSON.parse(localStorage.getItem('go-bar-user'));
+}
+
+function logout() {
+    localStorage.removeItem('go-bar-user');
+    history.push('/login');
+}
+
+function getToken() {
+    return getProfile().session.accessToken;
+}
+
+function getSession() {
+    return getProfile().session;
+}
+
+function isTokenExpired(session) {
+    return session && session.expiresAt < Date.now();
+}
+

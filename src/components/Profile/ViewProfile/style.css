@@ -1,0 +1,15 @@
+.profile-details {
+    width: 350px;
+    min-width: 320px;
+    margin: 0 10px;
+}
+
+.profile-details .form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-details input {
+    max-width: 200px;
+}

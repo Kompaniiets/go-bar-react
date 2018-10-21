@@ -4,6 +4,7 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import Logout from '../../Logout';
 
 library.add(fas);
 
@@ -13,6 +14,9 @@ const MainSideNav = (props) => (
             const to = '/' + selected;
             if (props.location.pathname !== to) {
                 props.history.push(to);
+                if (to === '/logout') {
+                    Logout(props);
+                }
             }
         }}
     >
@@ -34,7 +38,7 @@ const MainSideNav = (props) => (
                     Edit
                 </NavText>
             </NavItem>
-            <NavItem eventKey="signout">
+            <NavItem eventKey="logout">
                 <NavIcon>
                     <FontAwesomeIcon icon={fas.faSignOutAlt} />
                 </NavIcon>

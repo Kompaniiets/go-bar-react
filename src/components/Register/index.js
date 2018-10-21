@@ -32,19 +32,19 @@ export default class RegisterSwitcher extends Component {
             <p>{this.state.errorMessage}</p> : '';
 
         return (
-            <div className="container">
-                <div className="col-md-4 mx-auto">
-                    <p>Check how you want to register</p>
-                    <label className="switch">
-                        <input
-                            type="checkbox"
-                            checked={this.state.isBar}
-                            onChange={this.handleChange}
-                        />
-                        <span className="slider round"> </span>
-                    </label>
-                </div>
+            <div className="sign-forms">
                 <div>
+                    <div className="register-switcher">
+                        <span>Check role</span>
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                checked={this.state.isBar}
+                                onChange={this.handleChange}
+                            />
+                            <span className="slider round"> </span>
+                        </label>
+                    </div>
                     {
                         this.state.isBar ?
                             <RegisterBar onSubmit={this.onSubmit} /> :

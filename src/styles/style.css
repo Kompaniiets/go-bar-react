@@ -15,12 +15,77 @@ html, body {
 }
 
 main {
-    padding: 0 20px;
-    margin: 30px 64px 0 64px;
+    height: 100%;
+    padding: 15px;
+    margin-left: 64px;
 }
 
 header {
     background: #db3d44;
     min-height: 64px;
     padding: 10px;
+}
+
+#root > nav {
+    position: fixed;
+}
+
+.form-width {
+    min-width: 300px;
+}
+
+.facebook-btn-class {
+    margin: 0;
+    height: 38px;
+    font-size: larger;
+    font-family: Helvetica,sans-serif;
+    color: #fff;
+    cursor: pointer;
+    background-color: #4c69ba;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    -o-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+@media screen and (max-width: 1200px) {
+    .profile-container .profile-location {
+        width: 500px;
+        height: 300px;
+    }
+    .profile-container .profile-details {
+        margin: 0 10px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .profile-container .profile-location {
+        width: 400px;
+        height: 230px;
+    }
+    .profile-container {
+        margin: 0 auto;
+    }
+    .profile-container .profile-details {
+        margin: 0 10px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-container .profile-details {
+        margin: 0 10px 20px;
+    }
+}
+
+.map-style {
+    position: relative !important;
+    margin-bottom: 10px;
 }

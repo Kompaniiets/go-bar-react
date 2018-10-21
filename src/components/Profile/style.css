@@ -1,0 +1,16 @@
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 50px;
+}
+
+.profile-location {
+    position: relative;
+    width: 900px;
+    height: 400px;
+    min-width: 320px;
+}
+
+.profile-location > div {
+    height: 100%;
+}

@@ -1,0 +1,10 @@
+.home-map {
+    position: relative;
+    width: 800px;
+    height: 500px;
+    min-width: 320px;
+}
+
+.home-map > div {
+    height: 100%;
+}
