@@ -28,6 +28,6 @@
     margin-right: 10px;
 }
 
-.form-group input {
+.marker-data > .form-group input {
     width: 160px;
 }

@@ -5,10 +5,13 @@ import './style.css';
 export default class ViewProfile extends Component {
     onUpdate = (event) => {
         const arr = Array.from(this.props.markers);
-        if (event.id !== 'lat' && event.id !== 'lng') {
-            arr[event.key][event.id] = event.value;
-        } else {
+
+        if (event.id === 'lat' || event.id === 'lng') {
             arr[event.key][event.id] = parseFloat(event.value);
+        } else if (event.id === 'opensIn' || event.id === 'closesIn') {
+            arr[event.key][event.id] = event.value + ':00';
+        } else {
+            arr[event.key][event.id] = event.value;
         }
 
         this.props.onUpdate(arr);
@@ -19,7 +22,14 @@ export default class ViewProfile extends Component {
     };
 
     onSaveMarker = (event) => {
-        const value = event.target.id === 'numberOfTables' ? parseInt(event.target.value, 10) : event.target.value;
+        let value;
+        if (event.target.id === 'numberOfTables') {
+            value = parseInt(event.target.value, 10);
+        } else if (event.target.id === 'opensIn' || event.target.id === 'closesIn') {
+            value = event.target.value + ':00';
+        } else {
+            value = event.target.value;
+        }
 
         this.props.onSaveMarker(value);
     };
