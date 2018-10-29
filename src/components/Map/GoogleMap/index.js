@@ -38,6 +38,21 @@ export class MapContainer extends Component {
         this.props.onMapClicked(props, map, coord);
     };
 
+    renderChildren() {
+        const { children } = this.props;
+
+        if (!children) return;
+
+        return React.Children.map(children, c => {
+            if (!c) return;
+            return React.cloneElement(c, {
+                map: this.map,
+                google: this.props.google,
+                mapCenter: this.state.currentLocation
+            });
+        });
+    }
+
     render() {
         return (
             <Map google={this.props.google} zoom={14}
@@ -63,6 +78,7 @@ export class MapContainer extends Component {
                     visible={this.state.showingInfoWindow}>
                     <MarkerInfoContainer place={this.state.selectedPlace}/>
                 </InfoWindow>
+                {this.renderChildren()}
             </Map>
         );
     }
