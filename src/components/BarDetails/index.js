@@ -13,8 +13,12 @@ export default class BarDetails extends Component {
     };
 
     componentDidMount() {
+        console.log(this.state.date);
+
         const { id } = this.props.match.params;
-        HttpService.get(`users/bars/${id}`)
+        HttpService.get(`users/bars/${id}`, {
+            date: this.state.date
+        })
             .then(res => {
                 const arr = {
                     id: res.data.id,
