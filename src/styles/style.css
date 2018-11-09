@@ -52,7 +52,7 @@ header {
 }
 
 @media screen and (max-width: 1200px) {
-    .profile-container .profile-location {
+    .profile-container .map-wrapper {
         width: 500px;
         height: 300px;
     }
@@ -62,7 +62,7 @@ header {
 }
 
 @media screen and (max-width: 992px) {
-    .profile-container .profile-location {
+    .profile-container .map-wrapper {
         width: 400px;
         height: 230px;
     }

@@ -1,0 +1,11 @@
+.search-wrapper {
+    position: absolute;
+    margin: 8px 5px 0 110px;
+    color: white;
+}
+
+.search-wrapper label {
+    color: orangered;
+    font-size: 20px;
+    margin: 0 5px;
+}

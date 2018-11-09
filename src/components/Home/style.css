@@ -1,3 +1,7 @@
+.home-wrapper {
+    display: flex;
+}
+
 .home-map {
     position: relative;
     width: 800px;

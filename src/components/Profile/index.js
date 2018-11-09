@@ -25,7 +25,7 @@ export default class Profile extends Component {
                 <ViewProfile onSubmit={this.onSubmit} isBar={check.isBar}/>
 
                 {check.isBar ?
-                    <div className="profile-location">
+                    <div className="map-wrapper">
                         <MapContainer onSubmit={this.onSubmit}/>
                     </div> : ''
                 }

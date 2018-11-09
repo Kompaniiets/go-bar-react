@@ -3,6 +3,7 @@ import Home from './Home';
 import Login from './Login';
 import Register from './Register';
 import Profile from './Profile';
+import BarDetails from './BarDetails';
 import SideNavMenu from './SideNavMenu';
 
 import { Auth } from '../services/AuthService';
@@ -25,6 +26,7 @@ export default class App extends Component {
                             <Route exact path="/" component={Home}/>
                             <Route path="/login" component={Login}/>
                             <Route path="/register" component={Register}/>
+                            <Route path="/bars/:id" component={BarDetails}/>
                             <PrivateRoute path="/profile" component={Profile}/>
 
                             <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>

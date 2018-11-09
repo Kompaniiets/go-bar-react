@@ -1,0 +1,15 @@
+.bar-title {
+    font-size: 16px;
+    text-align: center;
+    padding: 10px 0 8px;
+    color: #000;
+    background: #F6F7FF;
+}
+
+.bar-body {
+    padding: 10px;
+}
+
+.bar-body p {
+    margin: 0;
+}

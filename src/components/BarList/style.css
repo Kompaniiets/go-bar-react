@@ -1,0 +1,22 @@
+.bar-list {
+    width: 500px;
+    min-width: 450px;
+    padding: 0 10px;
+}
+
+.single-bar {
+    border: 1px solid #bcbcbc;
+    margin-bottom: 15px;
+}
+
+.single-bar:hover {
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.single-bar > a {
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+}
