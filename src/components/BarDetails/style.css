@@ -1,0 +1,20 @@
+.bar-details-wrapper {
+    border: 1px solid #db3d44;
+}
+
+.bar-details-wrapper .bar-title {
+    font-size: 20px;
+    background: #db3d44;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.bar-description {
+    padding: 10px;
+}
+
+.react-datetime-picker > div {
+    border-color: #db3d44;
+    border-radius: 5px;
+}

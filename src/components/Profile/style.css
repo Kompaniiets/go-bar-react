@@ -4,13 +4,13 @@
     margin: 0 50px;
 }
 
-.profile-location {
+.map-wrapper {
     position: relative;
     width: 900px;
     height: 400px;
     min-width: 320px;
 }
 
-.profile-location > div {
+.map-wrapper > div {
     height: 100%;
 }

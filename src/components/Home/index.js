@@ -3,6 +3,7 @@ import GoogleMap from '../Map/GoogleMap';
 import HttpService from '../../services/httpServices';
 import GetCurrentLocation from '../../helpers/getCurrentLocation';
 import Search from '../Search';
+import BarList from '../BarList';
 import './style.css';
 
 export default class Home extends Component {
@@ -42,6 +43,8 @@ export default class Home extends Component {
                         numberOfTables: item.numberOfTables,
                         lat: item.lat,
                         lng: item.lng,
+                        email: item.bar.email,
+                        phone: item.bar.phone,
                     }
                 });
 
@@ -55,13 +58,14 @@ export default class Home extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div className="home-wrapper">
+                <BarList items={this.state.markers} />
                 <div className="home-map">
                     <GoogleMap onMapClicked={this.onMapClicked} markers={this.state.markers}>
                         <Search {...this.props} getBars={this.getBars} />
                     </GoogleMap>
                 </div>
-            </React.Fragment>
+            </div>
         )
     }
 }
