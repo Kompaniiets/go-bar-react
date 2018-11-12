@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import HttpService from '../../services/httpServices';
 import BarItem from '../BarList/BarItem';
+import BarTables from '../BarList/BarTables';
 import DateTimePicker from 'react-datetime-picker';
-import moment from 'moment';
 import './style.css';
 
 export default class BarDetails extends Component {
     state = {
-        item: {},
+        item: {
+            tables: []
+        },
         date: new Date(),
-        time: '12:00',
+        time: 30,
     };
 
     componentDidMount() {
-        console.log(this.state.date);
-
         const { id } = this.props.match.params;
+        this.sendData(id, this.state.date, this.state.time);
+    }
+
+    sendData = (id, date, time) => {
         HttpService.get(`users/bars/${id}`, {
-            date: this.state.date
+            date: date,
+            time: time
         })
             .then(res => {
                 const arr = {
@@ -31,60 +36,65 @@ export default class BarDetails extends Component {
                     lng: res.data.lng,
                     email: res.data.bar.email,
                     phone: res.data.bar.phone,
+                    tables: res.data.tables
                 };
 
                 this.setState({ item: arr });
             })
             .catch((err) => console.log('err ', err));
-    }
-
-    onDateChange = date => {
-        if (!date)
-            date = new Date();
-
-        this.setState({ date });
     };
 
-    onDurationChange = time => {
-        if (!time)
-            time = '12:00';
+    onDateChange = date => this.setState({ date });
 
-        this.setState({ time });
-        console.log(time)
-    };
+    onDurationChange = item => this.setState({ time: item.target.value });
 
     onBookTable = () => {
-        const d = moment(this.state.date).utc();
-        console.log(d);
+        const { id } = this.props.match.params;
+        this.sendData(id, this.state.date, this.state.time);
     };
 
     render() {
         return (
             <div className="bar-details-wrapper">
-                <BarItem item={this.state.item}/>
-                <div className="bar-description">
-                    <b>Description: </b>{this.state.item.info}
-                </div>
-                <div className="date-time-wrapper">
-                    <div className="date-time">
-                        <label htmlFor="date-pick"><b>Select date and time: </b></label>
-                        <DateTimePicker
-                            id="date-pick"
-                            onChange={this.onDateChange}
-                            value={this.state.date}
-                        />
+                <div className="bar-title"><span>{this.state.item.title}</span></div>
+                <div className="bar-details-container">
+                    <div className="bar-details-info">
+                        <BarItem item={this.state.item}/>
+                        <div className="bar-description">
+                            <b>Description: </b>{this.state.item.info}
+                        </div>
+                        <div className="date-time-wrapper">
+                            <div className="date-time">
+                                <p><b>Select date and time: </b></p>
+                                <DateTimePicker
+                                    id="date-pick"
+                                    onChange={this.onDateChange}
+                                    value={this.state.date}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="duration"><b>Select duration in minutes: </b></label>
+                                <input id="duration"
+                                       type="number"
+                                       min="30"
+                                       max="300"
+                                       step="30"
+                                       value={this.state.time}
+                                       onChange={this.onDurationChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="booked-table-button">
+                            <button
+                                className="btn btn-success btn-sm"
+                                onClick={this.onBookTable}>
+                                Book table
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="duration"><b>Select duration in minutes: </b></label>
-                        <input id="duration" type="number" min="30" max="300" step="30"/>
+                    <div className="tables-wrapper" >
+                        <BarTables item={this.state.item} />
                     </div>
-                </div>
-                <div>
-                    <button
-                        className="btn btn-success btn-sm"
-                        onClick={this.onBookTable}>
-                        Book table
-                    </button>
                 </div>
             </div>
         )
