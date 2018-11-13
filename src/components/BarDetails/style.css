@@ -44,7 +44,14 @@
 }
 
 .booked-table-button {
-    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.duration-wrapper input {
+    border: 1px solid #db3d44;
+    border-radius: 5px;
+    padding: 0 0 0 5px;
 }
 
 .date-time {

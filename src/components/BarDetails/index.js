@@ -3,7 +3,22 @@ import HttpService from '../../services/httpServices';
 import BarItem from '../BarList/BarItem';
 import BarTables from '../BarList/BarTables';
 import DateTimePicker from 'react-datetime-picker';
+import { Auth } from '../../services/AuthService';
 import './style.css';
+
+const barModel = (data) => ({
+    id: data.id,
+    title: data.title,
+    info: data.info,
+    opensIn: data.opensIn,
+    closesIn: data.closesIn,
+    numberOfTables: data.numberOfTables,
+    lat: data.lat,
+    lng: data.lng,
+    email: data.bar.email,
+    phone: data.bar.phone,
+    tables: data.tables
+});
 
 export default class BarDetails extends Component {
     state = {
@@ -11,49 +26,56 @@ export default class BarDetails extends Component {
             tables: []
         },
         date: new Date(),
-        time: 30,
+        duration: 30,
     };
 
     componentDidMount() {
         const { id } = this.props.match.params;
-        this.sendData(id, this.state.date, this.state.time);
+        this.sendData(id, this.state.date, this.state.duration);
     }
 
-    sendData = (id, date, time) => {
+    sendData = (id, date, duration) => {
         HttpService.get(`users/bars/${id}`, {
             date: date,
-            time: time
+            duration: duration
         })
             .then(res => {
-                const arr = {
-                    id: res.data.id,
-                    title: res.data.title,
-                    info: res.data.info,
-                    opensIn: res.data.opensIn,
-                    closesIn: res.data.closesIn,
-                    numberOfTables: res.data.numberOfTables,
-                    lat: res.data.lat,
-                    lng: res.data.lng,
-                    email: res.data.bar.email,
-                    phone: res.data.bar.phone,
-                    tables: res.data.tables
-                };
-
+                const arr = barModel(res.data);
                 this.setState({ item: arr });
             })
             .catch((err) => console.log('err ', err));
     };
 
-    onDateChange = date => this.setState({ date });
+    onDateChange = date => {
+        if(!date)
+            date = new Date();
+        this.setState({ date });
+    };
 
-    onDurationChange = item => this.setState({ time: item.target.value });
+    onDurationChange = item => this.setState({ duration: item.target.value });
+
+    onCheckTable = () => {
+        const { id } = this.props.match.params;
+        this.sendData(id, this.state.date, this.state.duration);
+    };
 
     onBookTable = () => {
         const { id } = this.props.match.params;
-        this.sendData(id, this.state.date, this.state.time);
+        HttpService.post('bars/book', {
+            id: parseInt(id, 10),
+            date: this.state.date,
+            duration: this.state.duration
+        })
+            .then(res => {
+                const arr = barModel(res.data);
+                this.setState({ item: arr });
+            })
+            .catch((err) => console.log('err ', err));
     };
 
     render() {
+        const isAuth = !Auth.loggedIn();
+
         return (
             <div className="bar-details-wrapper">
                 <div className="bar-title"><span>{this.state.item.title}</span></div>
@@ -72,14 +94,14 @@ export default class BarDetails extends Component {
                                     value={this.state.date}
                                 />
                             </div>
-                            <div>
-                                <label htmlFor="duration"><b>Select duration in minutes: </b></label>
+                            <div className="duration-wrapper">
+                                <label htmlFor="duration"><b>Duration in minutes: </b></label>
                                 <input id="duration"
                                        type="number"
                                        min="30"
                                        max="300"
                                        step="30"
-                                       value={this.state.time}
+                                       value={this.state.duration}
                                        onChange={this.onDurationChange}
                                 />
                             </div>
@@ -87,6 +109,12 @@ export default class BarDetails extends Component {
                         <div className="booked-table-button">
                             <button
                                 className="btn btn-success btn-sm"
+                                onClick={this.onCheckTable}>
+                                Check free table
+                            </button>
+                            <button
+                                className="btn btn-success btn-sm"
+                                disabled={isAuth}
                                 onClick={this.onBookTable}>
                                 Book table
                             </button>

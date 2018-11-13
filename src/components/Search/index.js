@@ -60,23 +60,27 @@ export default class Search extends Component {
         return (
             <div className="search-wrapper">
                 <form onSubmit={this.onSubmit}>
-                    <label htmlFor="radius"><FontAwesomeIcon icon={fas.faCircleNotch} /></label>
-                    <input
-                        id="radius"
-                        placeholder="Radius"
-                        min="2"
-                        max="20"
-                        value={this.state.radius}
-                        onChange={this.onRadiusChange}
-                        type="number"
-                    />
-                    <label htmlFor="place"><FontAwesomeIcon icon={fas.faCompass} /></label>
-                    <input
-                        id="place"
-                        placeholder="Enter a location"
-                        ref={ref => (this.autoComplete = ref)}
-                        type="text"
-                    />
+                    <div>
+                        <label htmlFor="radius"><FontAwesomeIcon icon={fas.faCircleNotch} /></label>
+                        <input
+                            id="radius"
+                            placeholder="Radius"
+                            min="2"
+                            max="20"
+                            value={this.state.radius}
+                            onChange={this.onRadiusChange}
+                            type="number"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="place"><FontAwesomeIcon icon={fas.faCompass} /></label>
+                        <input
+                            id="place"
+                            placeholder="Enter a location"
+                            ref={ref => (this.autoComplete = ref)}
+                            type="text"
+                        />
+                    </div>
                 </form>
             </div>
         )
