@@ -72,6 +72,13 @@ header {
     .profile-container .profile-details {
         margin: 0 10px;
     }
+    .bar-details-wrapper .single-table {
+        width: 70px;
+        height: 70px;
+    }
+    .bar-details-wrapper .table-content {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 750px) {
@@ -79,9 +86,23 @@ header {
         flex-direction: column;
         align-items: center;
     }
-
     .profile-container .profile-details {
         margin: 0 10px 20px;
+    }
+    .bar-details-wrapper .single-table {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .bar-details-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tables-wrapper {
+        padding: 10px 30px;
     }
 }
 
