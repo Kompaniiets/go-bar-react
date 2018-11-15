@@ -5,21 +5,19 @@ import Input from '../Input';
 import HttpService from '../../services/httpServices';
 import { Auth } from '../../services/AuthService';
 import FB from './fbLogin';
+import UserModel from '../../models/user';
 
 export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            email: '',
-            password: '',
+            ...UserModel({}),
             hasError: false,
             errorMessage: null,
         };
     }
 
-    onUpdate = (event) => {
-        this.setState({ [event.id]: event.value });
-    };
+    onUpdate = (event) => this.setState({ [event.id]: event.value });
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -29,10 +27,8 @@ export default class Login extends Component {
             password: event.target.password.value,
         })
             .then(res => {
-                if (res.data) {
-                    Auth.setStorage(res.data);
-                    this.props.history.push('/');
-                }
+                Auth.setStorage(res.data);
+                this.props.history.push('/');
             })
             .catch((err) => this.handleError(err));
     };

@@ -34,13 +34,10 @@ export class MapContainer extends Component {
         });
     };
 
-    onMapClicked = (props, map, coord) => {
-        this.props.onMapClicked(props, map, coord);
-    };
+    onMapClicked = (props, map, coord) => this.props.onMapClicked(props, map, coord);
 
     renderChildren() {
         const { children } = this.props;
-
         if (!children) return;
 
         return React.Children.map(children, c => {
@@ -65,8 +62,8 @@ export class MapContainer extends Component {
                         key={index}
                         title={marker.title}
                         name={marker.info}
-                        opensIn={marker.opensIn}
-                        closesIn={marker.closesIn}
+                        opensIn={marker.schedule.opensIn}
+                        closesIn={marker.schedule.closesIn}
                         position={{ lat: marker.lat, lng: marker.lng }}
                         onClick={this.onMarkerClick}
                     />

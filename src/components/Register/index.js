@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import HttpService from '../../services/httpServices';
+import RegisterForm from '../RegisterForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css'
-import RegisterBar from '../RegisterBar';
-import RegisterUser from '../RegisterUser';
-import HttpService from '../../services/httpServices';
 
 export default class RegisterSwitcher extends Component {
     state = {
@@ -12,11 +11,10 @@ export default class RegisterSwitcher extends Component {
         errorMessage: null
     };
 
-    handleChange = () => {
-        this.setState({ isBar: !this.state.isBar });
-    };
+    handleChange = () => this.setState({ isBar: !this.state.isBar });
 
     onSubmit = (data) => {
+        data.isBar = this.state.isBar;
         HttpService.post('signup', data)
             .then(res => this.props.history.push('/login'))
             .catch((err) => {
@@ -45,11 +43,7 @@ export default class RegisterSwitcher extends Component {
                             <span className="slider round"> </span>
                         </label>
                     </div>
-                    {
-                        this.state.isBar ?
-                            <RegisterBar onSubmit={this.onSubmit} /> :
-                            <RegisterUser onSubmit={this.onSubmit} />
-                    }
+                    <RegisterForm onSubmit={this.onSubmit} isBar={this.state.isBar} />
                     {err}
                 </div>
             </div>

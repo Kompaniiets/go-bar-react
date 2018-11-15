@@ -19,15 +19,9 @@ export default class Search extends Component {
         if (this.props !== prevProps.map) this.renderAutoComplete();
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
-    };
+    onSubmit = (e) => e.preventDefault();
 
-    onRadiusChange = (event) => {
-        this.setState({
-            radius: parseInt(event.target.value, 10)
-        });
-    };
+    onRadiusChange = (event) => this.setState({ radius: parseInt(event.target.value, 10) });
 
     renderAutoComplete = () => {
         const { google, map } = this.props;
@@ -61,7 +55,7 @@ export default class Search extends Component {
             <div className="search-wrapper">
                 <form onSubmit={this.onSubmit}>
                     <div>
-                        <label htmlFor="radius"><FontAwesomeIcon icon={fas.faCircleNotch} /></label>
+                        <label htmlFor="radius"><FontAwesomeIcon icon={fas.faCircleNotch}/></label>
                         <input
                             id="radius"
                             placeholder="Radius"
@@ -73,7 +67,7 @@ export default class Search extends Component {
                         />
                     </div>
                     <div>
-                        <label htmlFor="place"><FontAwesomeIcon icon={fas.faCompass} /></label>
+                        <label htmlFor="place"><FontAwesomeIcon icon={fas.faCompass}/></label>
                         <input
                             id="place"
                             placeholder="Enter a location"

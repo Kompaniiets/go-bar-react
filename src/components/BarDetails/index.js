@@ -4,25 +4,17 @@ import BarItem from '../BarList/BarItem';
 import BarTables from '../BarList/BarTables';
 import DateTimePicker from 'react-datetime-picker';
 import { Auth } from '../../services/AuthService';
+import BarModel from '../../models/bar';
+import UserModel from '../../models/user';
+import ScheduleModel from '../../models/schedule';
 import './style.css';
-
-const barModel = (data) => ({
-    id: data.id,
-    title: data.title,
-    info: data.info,
-    opensIn: data.opensIn,
-    closesIn: data.closesIn,
-    numberOfTables: data.numberOfTables,
-    lat: data.lat,
-    lng: data.lng,
-    email: data.bar.email,
-    phone: data.bar.phone,
-    tables: data.tables
-});
 
 export default class BarDetails extends Component {
     state = {
         item: {
+            ...BarModel({}),
+            user: {...UserModel({})},
+            schedule: {...ScheduleModel({})},
             tables: []
         },
         date: new Date(),
@@ -35,13 +27,18 @@ export default class BarDetails extends Component {
     }
 
     sendData = (id, date, duration) => {
-        HttpService.get(`users/bars/${id}`, {
+        HttpService.get(`bars/${id}/info`, {
             date: date,
             duration: duration
         })
             .then(res => {
-                const arr = barModel(res.data);
-                this.setState({ item: arr });
+                const item = {
+                    ...BarModel(res.data),
+                    user: {...UserModel(res.data.user)},
+                    schedule: {...ScheduleModel(res.data.schedule)},
+                    tables: res.data.tables
+                };
+                this.setState({ item: item });
             })
             .catch((err) => console.log('err ', err));
     };
@@ -61,14 +58,19 @@ export default class BarDetails extends Component {
 
     onBookTable = () => {
         const { id } = this.props.match.params;
-        HttpService.post('bars/book', {
+        HttpService.post('users/bars', {
             id: parseInt(id, 10),
             date: this.state.date,
             duration: this.state.duration
         })
             .then(res => {
-                const arr = barModel(res.data);
-                this.setState({ item: arr });
+                const item = {
+                    ...BarModel(res.data),
+                    user: {...UserModel(res.data.user)},
+                    schedule: {...ScheduleModel(res.data.schedule)},
+                    tables: res.data.tables
+                };
+                this.setState({ item: item });
             })
             .catch((err) => console.log('err ', err));
     };
