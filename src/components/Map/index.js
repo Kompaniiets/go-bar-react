@@ -28,7 +28,7 @@ export default class MapContainer extends Component {
 
                 this.setState({ markers: arr });
             })
-            .catch((err) => console.log('err ', err));
+            .catch();
     };
 
     onMapClicked = (props, map, coord) => {
@@ -63,7 +63,7 @@ export default class MapContainer extends Component {
 
         HttpService.del(`users/locations/${item.id}`)
             .then(() => this.deleteLocationFromArray(index))
-            .catch((err) => console.log('err ', err));
+            .catch();
     };
 
     deleteLocationFromArray = (index) => {

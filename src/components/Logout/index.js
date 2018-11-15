@@ -8,5 +8,5 @@ export default function Logout(props) {
             Auth.logout();
             props.history.replace('/');
         })
-        .catch((err) =>console.log(err));
+        .catch();
 }

@@ -5,6 +5,10 @@ import Register from './Register';
 import Profile from './Profile';
 import BarDetails from './BarDetails';
 import SideNavMenu from './SideNavMenu';
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
 import { Auth } from '../services/AuthService';
 import PrivateRoute from '../services/PrivateRoute';
@@ -32,6 +36,7 @@ export default class App extends Component {
                             <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
                         </Switch>
                     </main>
+                    <Alert stack={{limit: 3}} />
                 </React.Fragment>
             </Router>
         )

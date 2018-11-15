@@ -42,7 +42,7 @@ export default class Home extends Component {
 
                 this.setState({ markers: arr });
             })
-            .catch((err) => console.log('err ', err));
+            .catch();
     };
 
     onMapClicked = (event) => {
