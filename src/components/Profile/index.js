@@ -9,7 +9,7 @@ export default class Profile extends Component {
     onSubmit = (data, type) => {
         if (type === 'info') {
             HttpService.patch('users/me', data)
-                .then(res => Auth.setStorage(res.data))
+                .then(res => Auth.updateStorage(res.data))
                 .catch((err) => console.log('err ', err));
         } else {
             HttpService.post('users/locations', data)

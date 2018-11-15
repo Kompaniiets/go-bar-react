@@ -6,6 +6,7 @@ export const Auth = {
     logout,
     setStorage,
     getProfile,
+    updateStorage,
 };
 
 function loggedIn() {
@@ -14,6 +15,12 @@ function loggedIn() {
 
 function setStorage(data) {
     localStorage.setItem('go-bar-user', JSON.stringify(data));
+}
+
+function updateStorage(data) {
+    const profile = getProfile();
+    const newData = Object.assign(profile, data);
+    localStorage.setItem('go-bar-user', JSON.stringify(newData));
 }
 
 function getProfile() {

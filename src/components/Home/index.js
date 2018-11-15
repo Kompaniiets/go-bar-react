@@ -4,6 +4,9 @@ import HttpService from '../../services/httpServices';
 import GetCurrentLocation from '../../helpers/getCurrentLocation';
 import Search from '../Search';
 import BarList from '../BarList';
+import BarModel from '../../models/bar';
+import UserModel from '../../models/user';
+import ScheduleModel from '../../models/schedule';
 import './style.css';
 
 export default class Home extends Component {
@@ -27,26 +30,15 @@ export default class Home extends Component {
     }
 
     getBars = (position) => {
-        const{ lat, lng, radius} = position;
-
-        HttpService.get('users/bars', {
-            lat, lng, radius
+        HttpService.get('bars/list', {
+            ...position
         })
             .then(res => {
-                const arr = res.data.map(item => {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        info: item.info,
-                        opensIn: item.opensIn,
-                        closesIn: item.closesIn,
-                        numberOfTables: item.numberOfTables,
-                        lat: item.lat,
-                        lng: item.lng,
-                        email: item.bar.email,
-                        phone: item.bar.phone,
-                    }
-                });
+                const arr = res.data.map(item => ({
+                    ...BarModel(item),
+                    user: { ...UserModel(item.user) },
+                    schedule: { ...ScheduleModel(item.schedule) },
+                }));
 
                 this.setState({ markers: arr });
             })
@@ -59,10 +51,10 @@ export default class Home extends Component {
     render() {
         return (
             <div className="home-wrapper">
-                <BarList items={this.state.markers} />
+                <BarList items={this.state.markers}/>
                 <div className="home-map">
                     <GoogleMap onMapClicked={this.onMapClicked} markers={this.state.markers}>
-                        <Search {...this.props} getBars={this.getBars} />
+                        <Search {...this.props} getBars={this.getBars}/>
                     </GoogleMap>
                 </div>
             </div>

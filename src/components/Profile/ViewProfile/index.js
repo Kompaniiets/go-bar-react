@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import HttpService from '../../../services/httpServices';
 import Input from '../../Input';
+import UserModel from '../../../models/user';
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css';
 
 export default class ViewProfile extends Component {
     state = {
-        id: null,
-        email: '',
-        firstName: '',
-        lastName: '',
-        barName: '',
-        phone: '',
-        isBar: this.props.isBar,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        ...UserModel({}),
         hasError: false,
         errorMessage: ''
     };
@@ -31,14 +24,11 @@ export default class ViewProfile extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-
         const data = Object.assign({}, this.state);
         this.props.onSubmit(data, 'info');
     };
 
-    onUpdate = (event) => {
-        this.setState({ [event.id]: event.value });
-    };
+    onUpdate = (event) => this.setState({ [event.id]: event.value });
 
     handleError = (err) => {
         this.setState({
