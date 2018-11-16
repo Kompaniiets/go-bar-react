@@ -25,12 +25,10 @@ export default class Login extends Component {
         HttpService.post('login', {
             email: event.target.email.value,
             password: event.target.password.value,
-        })
-            .then(res => {
-                Auth.setStorage(res.data);
-                this.props.history.push('/');
-            })
-            .catch((err) => this.handleError(err));
+        }).then(res => {
+            Auth.setStorage(res.data);
+            this.props.history.push('/');
+        }).catch((err) => this.handleError(err));
     };
 
     handleError = (err) => {

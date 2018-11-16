@@ -1,6 +1,3 @@
-import createBrowserHistory from 'history/createBrowserHistory';
-const history = createBrowserHistory();
-
 export const Auth = {
     loggedIn,
     logout,
@@ -29,7 +26,7 @@ function getProfile() {
 
 function logout() {
     localStorage.removeItem('go-bar-user');
-    history.push('/login');
+    window.location.href = '/login';
 }
 
 function getToken() {

@@ -3,6 +3,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import GetCurrentLocation from '../../../helpers/getCurrentLocation';
 import config from '../../../config';
 import MarkerInfoContainer from '../MarkerInfo';
+import ErrorHandler from '../../../services/ErrorHandler';
 
 export class MapContainer extends Component {
     state = {
@@ -15,9 +16,12 @@ export class MapContainer extends Component {
 
     componentDidMount() {
         GetCurrentLocation()
-            .then((location) => this.setState({
-                center: location,
-            })).catch((error) => console.log('Can`t get current geo location ', error));
+            .then((location) => {
+                this.setState({
+                    center: location,
+                });
+                this.props.onGetCenter(location);
+            }).catch((error) => ErrorHandler(400, error));
     }
 
     onMarkerClick = (props, marker, e) => {
@@ -28,11 +32,7 @@ export class MapContainer extends Component {
         });
     };
 
-    onInfoWindowClose = () => {
-        this.setState({
-            showingInfoWindow: false
-        });
-    };
+    onInfoWindowClose = () => this.setState({ showingInfoWindow: false });
 
     onMapClicked = (props, map, coord) => this.props.onMapClicked(props, map, coord);
 

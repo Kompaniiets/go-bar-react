@@ -13,8 +13,8 @@ export default class BarDetails extends Component {
     state = {
         item: {
             ...BarModel({}),
-            user: {...UserModel({})},
-            schedule: {...ScheduleModel({})},
+            user: { ...UserModel({}) },
+            schedule: { ...ScheduleModel({}) },
             tables: []
         },
         date: new Date(),
@@ -30,21 +30,19 @@ export default class BarDetails extends Component {
         HttpService.get(`bars/${id}/info`, {
             date: date,
             duration: duration
-        })
-            .then(res => {
-                const item = {
-                    ...BarModel(res.data),
-                    user: {...UserModel(res.data.user)},
-                    schedule: {...ScheduleModel(res.data.schedule)},
-                    tables: res.data.tables
-                };
-                this.setState({ item: item });
-            })
-            .catch((err) => console.log('err ', err));
+        }).then(res => {
+            const item = {
+                ...BarModel(res.data),
+                user: { ...UserModel(res.data.user) },
+                schedule: { ...ScheduleModel(res.data.schedule) },
+                tables: res.data.tables
+            };
+            this.setState({ item: item });
+        }).catch(err => console.log(err));
     };
 
     onDateChange = date => {
-        if(!date)
+        if (!date)
             date = new Date();
         this.setState({ date });
     };
@@ -62,17 +60,15 @@ export default class BarDetails extends Component {
             id: parseInt(id, 10),
             date: this.state.date,
             duration: this.state.duration
-        })
-            .then(res => {
-                const item = {
-                    ...BarModel(res.data),
-                    user: {...UserModel(res.data.user)},
-                    schedule: {...ScheduleModel(res.data.schedule)},
-                    tables: res.data.tables
-                };
-                this.setState({ item: item });
-            })
-            .catch((err) => console.log('err ', err));
+        }).then(res => {
+            const item = {
+                ...BarModel(res.data),
+                user: { ...UserModel(res.data.user) },
+                schedule: { ...ScheduleModel(res.data.schedule) },
+                tables: res.data.tables
+            };
+            this.setState({ item: item });
+        }).catch(err => console.log(err));
     };
 
     render() {
@@ -122,8 +118,8 @@ export default class BarDetails extends Component {
                             </button>
                         </div>
                     </div>
-                    <div className="tables-wrapper" >
-                        <BarTables item={this.state.item} />
+                    <div className="tables-wrapper">
+                        <BarTables item={this.state.item}/>
                     </div>
                 </div>
             </div>
