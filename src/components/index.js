@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PrivateRoute from '../services/PrivateRoute';
 import Home from './Home';
 import Login from './Login';
 import Register from './Register';
@@ -10,16 +11,9 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
-import { Auth } from '../services/AuthService';
-import PrivateRoute from '../services/PrivateRoute';
-
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 export default class App extends Component {
-    componentDidMount() {
-        Auth.loggedIn();
-    }
-
     render() {
         return (
             <Router>

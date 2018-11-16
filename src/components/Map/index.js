@@ -28,7 +28,7 @@ export default class MapContainer extends Component {
 
                 this.setState({ markers: arr });
             })
-            .catch();
+            .catch((err) => console.log(err));
     };
 
     onMapClicked = (props, map, coord) => {
@@ -63,7 +63,7 @@ export default class MapContainer extends Component {
 
         HttpService.del(`users/locations/${item.id}`)
             .then(() => this.deleteLocationFromArray(index))
-            .catch();
+            .catch((err) => console.log(err));
     };
 
     deleteLocationFromArray = (index) => {
@@ -78,10 +78,12 @@ export default class MapContainer extends Component {
         this.props.onSubmit(arr, 'locations');
     };
 
+    onGetCenter = (coords) => {};
+
     render() {
         return (
             <React.Fragment>
-                <GoogleMap onMapClicked={this.onMapClicked} markers={this.state.markers}/>
+                <GoogleMap onMapClicked={this.onMapClicked} markers={this.state.markers} onGetCenter={this.onGetCenter}/>
                 <MarkerDataContainer markers={this.state.markers} onUpdate={this.onUpdate}
                                      onDelete={this.onMarkerDelete} onSaveMarker={this.onSaveMarker}/>
             </React.Fragment>

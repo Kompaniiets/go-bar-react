@@ -38,7 +38,7 @@ export default class BarDetails extends Component {
                 tables: res.data.tables
             };
             this.setState({ item: item });
-        }).catch();
+        }).catch(err => console.log(err));
     };
 
     onDateChange = date => {
@@ -68,7 +68,7 @@ export default class BarDetails extends Component {
                 tables: res.data.tables
             };
             this.setState({ item: item });
-        }).catch();
+        }).catch(err => console.log(err));
     };
 
     render() {
