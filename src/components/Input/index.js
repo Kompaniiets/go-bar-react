@@ -31,6 +31,7 @@ export default class Input extends Component {
                     value={this.props.value || this.state.value}
                     onChange={this.handleChange}
                     className={classStyle}
+                    autoComplete="off"
                     disabled={this.props.disabled || ''}
                 />
             </div>

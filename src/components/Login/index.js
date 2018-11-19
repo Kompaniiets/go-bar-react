@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.css'
-import './style.css'
-import Input from '../Input';
 import HttpService from '../../services/httpServices';
 import { Auth } from '../../services/AuthService';
-import FB from './fbLogin';
 import UserModel from '../../models/user';
+import FB from './fbLogin';
+import Input from '../Input';
+import 'bootstrap/dist/css/bootstrap.css';
+import './style.css';
 
 export default class Login extends Component {
     constructor() {
@@ -44,7 +44,7 @@ export default class Login extends Component {
 
         return (
             <div className="container login-form">
-                <div className="card rounded-0 form-width">
+                <div className="card form-width">
 
                     <div className="card-header text-center">
                         <h3 className="mb-0">Login</h3>
@@ -64,16 +64,17 @@ export default class Login extends Component {
 
                             {err}
 
+                            <button
+                                type="submit"
+                                className="login-btn"
+                                id="btnLogin">
+                                Login
+                            </button>
+
                             <FB
                                 {...this.props}
                                 handleError={this.handleError}
                             />
-                            <button
-                                type="submit"
-                                className="btn btn-success btn-md float-right"
-                                id="btnLogin">
-                                Login
-                            </button>
                         </form>
                     </div>
 
