@@ -14,7 +14,7 @@ export default class RegisterForm extends Component {
 
     render() {
         return (
-            <div className="card rounded-0 form-width">
+            <div className="card form-width">
 
                 <div className="card-header text-center">
                     <h3 className="mb-0">{!this.props.isBar ? 'Register as user' : 'Register as bar'}</h3>
@@ -55,7 +55,7 @@ export default class RegisterForm extends Component {
 
                         <button
                             type="submit"
-                            className="btn btn-success btn-md float-right"
+                            className="login-btn"
                             id="btnLogin">
                             Register
                         </button>
