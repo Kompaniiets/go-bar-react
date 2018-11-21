@@ -1,11 +1,27 @@
 .bar-title {
-    font-size: 16px;
+    font-size: 19px;
     text-align: center;
-    padding: 10px 0 8px;
-    color: #000;
-    background: #F6F7FF;
+    padding: 5px 0;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    border-radius: 5px;
 }
 
-.bar-body {
+.bar-body-container {
+    display: flex;
+    justify-content: space-between;
     padding: 10px;
+}
+
+.bar-image {
+    max-height: 100px;
+    border-radius: 50px;
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+.bar-image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
 }

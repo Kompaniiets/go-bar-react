@@ -106,12 +106,12 @@ export default class BarDetails extends Component {
                         </div>
                         <div className="booked-table-button">
                             <button
-                                className="btn btn-success btn-sm"
+                                className="btn-style"
                                 onClick={this.onCheckTable}>
                                 Check free table
                             </button>
                             <button
-                                className="btn btn-success btn-sm"
+                                className="btn-style"
                                 disabled={isAuth}
                                 onClick={this.onBookTable}>
                                 Book table

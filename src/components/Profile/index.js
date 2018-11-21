@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ViewProfile from './ViewProfile';
+import UploadLogo from './UploadBarLogo';
 import MapContainer from '../Map';
 import HttpService from '../../services/httpServices';
 import { Auth } from '../../services/AuthService';
@@ -23,7 +24,7 @@ export default class Profile extends Component {
         return (
             <div className="profile-container">
                 <ViewProfile onSubmit={this.onSubmit} isBar={check.isBar}/>
-
+                {check.isBar ? <UploadLogo/> : ''}
                 {check.isBar ?
                     <div className="map-wrapper">
                         <MapContainer onSubmit={this.onSubmit}/>

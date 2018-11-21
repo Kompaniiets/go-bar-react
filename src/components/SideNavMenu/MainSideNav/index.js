@@ -9,7 +9,7 @@ import Logout from '../../Logout';
 library.add(fas);
 
 const MainSideNav = (props) => (
-    <SideNav
+    <SideNav className="background-gradient"
         onSelect={(selected) => {
             const to = '/' + selected;
             if (props.location.pathname !== to) {

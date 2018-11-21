@@ -23,8 +23,15 @@
     text-align: right;
 }
 
-.marker-data button {
-    margin-right: 10px;
+.marker-btn button {
+    padding: 2px 5px;
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+.marker-btn > .btn-delete:hover {
+    background: rgba(255, 0, 0, 0.5);
+    border-color: transparent;
 }
 
 .marker-data input {

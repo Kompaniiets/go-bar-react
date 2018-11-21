@@ -95,7 +95,7 @@ export default class ViewProfile extends Component {
                     </ol>
                     <button
                         type="submit"
-                        className="btn btn-success btn-md float-right"
+                        className="btn-style float-right"
                         id="btnLogin">
                         Save
                     </button>

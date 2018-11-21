@@ -4,6 +4,10 @@
     margin: 0 50px;
 }
 
+.profile-container button {
+    border-color: #fff;
+}
+
 .map-wrapper {
     position: relative;
     width: 900px;

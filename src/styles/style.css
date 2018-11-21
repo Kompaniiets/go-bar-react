@@ -9,36 +9,54 @@
 }
 
 html, body {
-    background: #F4F5F1;
-    height: 100%;
-}
-
-h1, h3, h4, h5, p, label {
-    margin: 0;
-}
-
-#root {
-    height: 100%;
-}
-
-main {
-    height: 100%;
-    padding: 15px;
-    margin-left: 64px;
     background: #26EFB4;
     background: -webkit-linear-gradient(#26EFB4, #07466F);
     background: -moz-linear-gradient(#26EFB4, #07466F);
     background: linear-gradient(#26EFB4, #07466F);
 }
 
-header {
-    background: #db3d44;
-    min-height: 64px;
-    padding: 10px;
+#root {
+    min-height: 100vh;
+}
+
+h1, h3, h4, h5, p, label {
+    margin: 0;
+}
+
+main {
+    padding: 15px;
+    margin-left: 64px;
+}
+
+.full-height {
+    min-height: 100vh;
 }
 
 #root > nav {
     position: fixed;
+    border-right: 1px solid #fff;
+}
+
+#root > nav > button > span:nth-child(odd), #root > nav div {
+    opacity: 1;
+}
+
+#root > nav svg, #root > nav div {
+    color: #fff;
+    -webkit-transition: .5s all ease;
+    -o-transition: .3s all ease;
+    transition: .5s all ease;
+}
+
+#root > nav > div > div:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.background-gradient {
+    background: #26EFB4;
+    background: -webkit-linear-gradient(#26EFB4, #07466F);
+    background: -moz-linear-gradient(#26EFB4, #07466F);
+    background: linear-gradient(#26EFB4, #07466F);
 }
 
 .form-width {
@@ -79,6 +97,7 @@ header {
 .form-group .form-control {
     box-shadow: none;
     border-color: #fff;
+    color: #000;
     background: transparent ;
 }
 
@@ -94,6 +113,30 @@ header {
     font-family: FontAwesome;
 }
 
+.btn-style {
+    border-radius: 5px;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-weight: 400;
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    text-transform: uppercase;
+    border: 1px solid #000;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+.btn-style:focus {
+    outline: none;
+}
+
+.btn-style:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: transparent;
+}
+
 @media screen and (max-width: 1200px) {
     .profile-container .map-wrapper {
         width: 500px;
@@ -101,6 +144,12 @@ header {
     }
     .profile-container .profile-details {
         margin: 0 10px;
+    }
+    main .bar-list {
+        min-width: 400px;
+    }
+    main .home-map {
+        min-width: 400px;
     }
 }
 
@@ -122,6 +171,12 @@ header {
     .bar-details-wrapper .table-content {
         display: none;
     }
+    main .bar-list {
+        min-width: 300px;
+    }
+    main .home-map {
+        min-width: 300px;
+    }
 }
 
 @media screen and (max-width: 750px) {
@@ -136,6 +191,15 @@ header {
         width: 50px;
         height: 50px;
     }
+    .home-wrapper {
+        flex-wrap: wrap-reverse;
+    }
+    main .bar-list {
+        padding: 0;
+    }
+    main .home-map {
+        margin-bottom: 10px;
+    }
 }
 
 @media screen and (max-width: 620px) {
@@ -143,9 +207,15 @@ header {
         flex-direction: column;
         align-items: center;
     }
-
     .tables-wrapper {
         padding: 10px 30px;
+    }
+    main .bar-list {
+        min-width: 260px;
+    }
+    main .home-map {
+        min-width: 260px;
+        height: 300px;
     }
 }
 
