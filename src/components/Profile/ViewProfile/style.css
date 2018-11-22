@@ -13,3 +13,8 @@
 .profile-details input {
     max-width: 200px;
 }
+
+.save-profile-btn {
+    display: inline-block;
+    width: 100%;
+}

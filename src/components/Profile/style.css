@@ -11,10 +11,5 @@
 .map-wrapper {
     position: relative;
     width: 900px;
-    height: 400px;
     min-width: 320px;
-}
-
-.map-wrapper > div {
-    height: 100%;
 }
