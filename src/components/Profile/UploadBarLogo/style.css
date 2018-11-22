@@ -1,0 +1,13 @@
+.avatar-style form {
+    margin: 10px;
+}
+
+.avatar-style img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.avatar-style input {
+    display: block;
+    margin: 5px auto;
+}

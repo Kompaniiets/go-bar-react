@@ -58,13 +58,13 @@ export default class ViewProfile extends Component {
                             <div className="marker-btn">
                                 <button
                                     value={index}
-                                    className="btn btn-success btn-sm"
+                                    className="btn-style"
                                     onClick={this.onSaveMarker}>
                                     Save
                                 </button>
                                 <button
                                     value={index}
-                                    className="btn btn-danger btn-sm float-right"
+                                    className="btn-style btn-delete"
                                     onClick={this.onDelete}>
                                     Delete
                                 </button>

@@ -43,7 +43,7 @@ export default class Login extends Component {
             <p>{this.state.errorMessage}</p> : '';
 
         return (
-            <div className="container login-form">
+            <div className="container login-form full-height">
                 <div className="card form-width">
 
                     <div className="card-header text-center">

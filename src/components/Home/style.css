@@ -1,12 +1,13 @@
 .home-wrapper {
     display: flex;
+    justify-content: space-around;
 }
 
 .home-map {
     position: relative;
-    width: 800px;
+    width: 900px;
     height: 500px;
-    min-width: 320px;
+    min-width: 500px;
 }
 
 .home-map > div {

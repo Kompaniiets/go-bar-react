@@ -6,6 +6,7 @@ export default (item) => ({
     barName: item.barName ? item.barName : '',
     phone: item.phone ? item.phone : '',
     isBar: item.isBar ? item.isBar : false,
+    avatarUrl: item.avatarUrl ? item.avatarUrl : '',
     createdAt: item.createdAt ? item.createdAt : '',
     updatedAt: item.updatedAt ? item.updatedAt : '',
 });

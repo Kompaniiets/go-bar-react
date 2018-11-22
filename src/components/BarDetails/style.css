@@ -1,14 +1,13 @@
 .bar-details-wrapper {
-    border: 1px solid #db3d44;
     min-width: 460px;
+    border: 1px solid #000;
+    border-radius: 5px;
 }
 
 .bar-details-wrapper .bar-title {
-    font-size: 20px;
-    background: #db3d44;
-    color: white;
-    font-weight: bold;
+    font-size: 23px;
     letter-spacing: 2px;
+    border-bottom: 1px solid #000;
 }
 
 .bar-description {
@@ -16,7 +15,7 @@
 }
 
 .react-datetime-picker > div {
-    border-color: #db3d44;
+    border-color: #000;
     border-radius: 5px;
 }
 
@@ -29,29 +28,33 @@
 }
 
 .bar-details-info {
-    -webkit-flex: 3 1 40%;
-    flex: 3 1 40%;
+    -webkit-flex: 3 1 30%;
+    flex: 3 1 30%;
     padding: 10px;
+    min-width: 360px
 }
 
 .tables-wrapper {
-    -webkit-flex: 3 1 60%;
-    flex: 3 1 60%;
+    -webkit-flex: 3 1 70%;
+    flex: 3 1 70%;
 }
 
 .date-time-wrapper {
     padding: 10px;
 }
 
-.booked-table-button {
-    display: flex;
-    justify-content: space-evenly;
+.booked-table-button button {
+    display: block;
+    margin: 5px auto;
+    width: 100%;
+    max-width: 250px;
 }
 
 .duration-wrapper input {
-    border: 1px solid #db3d44;
+    border: 1px solid #000;
     border-radius: 5px;
     padding: 0 0 0 5px;
+    background: transparent;
 }
 
 .date-time {

@@ -30,7 +30,7 @@ export default class RegisterSwitcher extends Component {
             <p>{this.state.errorMessage}</p> : '';
 
         return (
-            <div className="sign-forms">
+            <div className="sign-forms full-height">
                 <div>
                     <div className="register-switcher">
                         <span>Check role</span>

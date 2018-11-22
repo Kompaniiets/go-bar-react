@@ -1,69 +1,47 @@
 import React, { Component } from 'react';
-import HttpService from '../../../services/httpServices';
 import Input from '../../Input';
-import UserModel from '../../../models/user';
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css';
 
 export default class ViewProfile extends Component {
-    state = {
-        ...UserModel({}),
-        hasError: false,
-        errorMessage: ''
-    };
-
-    componentDidMount() {
-        HttpService.get('users/me')
-            .then(res => {
-                this.setState({
-                    ...res.data,
-                });
-            })
-            .catch((err) => this.handleError(err));
-    }
-
     handleSubmit = (event) => {
         event.preventDefault();
-        const data = Object.assign({}, this.state);
+        const data = Object.assign({}, this.props.user);
         this.props.onSubmit(data, 'info');
     };
 
-    onUpdate = (event) => this.setState({ [event.id]: event.value });
-
-    handleError = (err) => {
-        this.setState({
-            hasError: true,
-            errorMessage: err
-        });
-    };
+    onProfileUpdate = (event) => this.props.onProfileUpdate(event);
 
     render() {
+        const user = this.props.user;
+        const error = this.props.error;
+
         return (
             <div className="profile-details">
                 <form onSubmit={this.handleSubmit} className="form-horizontal">
                     <ol>
                         <li>
                             <Input id="email" type="email" label="Email:"
-                                   value={this.state.email}
-                                   hasError={this.state.hasError}
-                                   onUpdate={this.onUpdate}
+                                   value={user.email}
+                                   hasError={error.hasError}
+                                   onUpdate={this.onProfileUpdate}
                             />
                         </li>
                         {
-                            !this.props.isBar ?
+                            !user.isBar ?
                                 <React.Fragment>
                                     <li>
                                         <Input id="firstName" type="text" label="First Name:"
-                                               value={this.state.firstName}
-                                               hasError={this.state.hasError}
-                                               onUpdate={this.onUpdate}
+                                               value={user.firstName}
+                                               hasError={error.hasError}
+                                               onUpdate={this.onProfileUpdate}
                                         />
                                     </li>
                                     <li>
                                         <Input id="lastName" type="text" label="Last Name:"
-                                               value={this.state.lastName}
-                                               hasError={this.state.hasError}
-                                               onUpdate={this.onUpdate}
+                                               value={user.lastName}
+                                               hasError={error.hasError}
+                                               onUpdate={this.onProfileUpdate}
                                         />
                                     </li>
                                 </React.Fragment>
@@ -71,34 +49,36 @@ export default class ViewProfile extends Component {
                                 <React.Fragment>
                                     <li>
                                         <Input id="barName" type="text" label="Bar Name:"
-                                               value={this.state.barName}
-                                               hasError={this.state.hasError}
-                                               onUpdate={this.onUpdate}
+                                               value={user.barName}
+                                               hasError={error.hasError}
+                                               onUpdate={this.onProfileUpdate}
                                         />
                                     </li>
                                     <li>
                                         <Input id="phone" type="tel" label="Phone:"
-                                               value={this.state.phone}
-                                               hasError={this.state.hasError}
-                                               onUpdate={this.onUpdate}
+                                               value={user.phone}
+                                               hasError={error.hasError}
+                                               onUpdate={this.onProfileUpdate}
                                         />
                                     </li>
                                 </React.Fragment>
                         }
                         <li>
                             <Input id="createdAt" type="text" label="Created at:" disabled="disabled"
-                                   value={new Date(this.state.createdAt).toLocaleString()}
-                                   hasError={this.state.hasError}
-                                   onUpdate={this.onUpdate}
+                                   value={new Date(user.createdAt).toLocaleString()}
+                                   hasError={error.hasError}
+                                   onUpdate={this.onProfileUpdate}
                             />
                         </li>
                     </ol>
-                    <button
-                        type="submit"
-                        className="btn btn-success btn-md float-right"
-                        id="btnLogin">
-                        Save
-                    </button>
+                    <div className="save-profile-btn">
+                        <button
+                            type="submit"
+                            className="btn-style float-right"
+                            id="btnLogin">
+                            Save
+                        </button>
+                    </div>
                 </form>
             </div>
         )
