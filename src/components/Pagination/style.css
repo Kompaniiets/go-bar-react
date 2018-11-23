@@ -1,0 +1,40 @@
+.pagination {
+    justify-content: center;
+    margin: 0;
+}
+
+.pagination li > a:focus {
+    outline: none;
+}
+
+.pagination li > a {
+    color: #fff;
+    font-weight: bolder;
+}
+
+.pagination li.active a {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: transparent;
+}
+
+.pagination li > a {
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin: 0 3px;
+    cursor: pointer;
+    font-weight: 400;
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    text-transform: uppercase;
+    border: 1px solid #fff;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+.pagination li > a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: transparent;
+}
