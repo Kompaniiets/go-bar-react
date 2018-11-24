@@ -11,11 +11,15 @@
     "bootstrap": "^4.1.2",
     "google-maps-react": "^2.0.2",
     "jquery": "^3.3.1",
+    "moment": "^2.22.2",
     "popper.js": "^1.14.3",
     "react": "^16.4.1",
+    "react-datetime-picker": "^2.0.0",
     "react-dom": "^16.4.1",
     "react-facebook-login": "^4.0.1",
+    "react-paginate": "^6.0.0",
     "react-router-dom": "^4.3.1",
+    "react-s-alert": "^1.4.1",
     "react-scripts": "1.1.4"
   },
   "scripts": {

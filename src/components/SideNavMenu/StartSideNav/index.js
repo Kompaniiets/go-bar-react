@@ -8,7 +8,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 const StartSideNav = (props) => (
-    <SideNav
+    <SideNav className="background-gradient"
         onSelect={(selected) => {
             const to = '/' + selected;
             if (props.location.pathname !== to) {

@@ -3,6 +3,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import GetCurrentLocation from '../../../helpers/getCurrentLocation';
 import config from '../../../config';
 import MarkerInfoContainer from '../MarkerInfo';
+import ErrorHandler from '../../../services/ErrorHandler';
 
 export class MapContainer extends Component {
     state = {
@@ -15,9 +16,12 @@ export class MapContainer extends Component {
 
     componentDidMount() {
         GetCurrentLocation()
-            .then((location) => this.setState({
-                center: location,
-            })).catch((error) => console.log('Can`t get current geo location ', error));
+            .then((location) => {
+                this.setState({
+                    center: location,
+                });
+                this.props.onGetCenter(location);
+            }).catch((error) => ErrorHandler(400, error));
     }
 
     onMarkerClick = (props, marker, e) => {
@@ -28,15 +32,23 @@ export class MapContainer extends Component {
         });
     };
 
-    onInfoWindowClose = () => {
-        this.setState({
-            showingInfoWindow: false
-        });
-    };
+    onInfoWindowClose = () => this.setState({ showingInfoWindow: false });
 
-    onMapClicked = (props, map, coord) => {
-        this.props.onMapClicked(props, map, coord);
-    };
+    onMapClicked = (props, map, coord) => this.props.onMapClicked(props, map, coord);
+
+    renderChildren() {
+        const { children } = this.props;
+        if (!children) return;
+
+        return React.Children.map(children, c => {
+            if (!c) return;
+            return React.cloneElement(c, {
+                map: this.map,
+                google: this.props.google,
+                mapCenter: this.state.currentLocation
+            });
+        });
+    }
 
     render() {
         return (
@@ -50,8 +62,8 @@ export class MapContainer extends Component {
                         key={index}
                         title={marker.title}
                         name={marker.info}
-                        opensIn={marker.opensIn}
-                        closesIn={marker.closesIn}
+                        opensIn={marker.schedule.opensIn}
+                        closesIn={marker.schedule.closesIn}
                         position={{ lat: marker.lat, lng: marker.lng }}
                         onClick={this.onMarkerClick}
                     />
@@ -63,6 +75,7 @@ export class MapContainer extends Component {
                     visible={this.state.showingInfoWindow}>
                     <MarkerInfoContainer place={this.state.selectedPlace}/>
                 </InfoWindow>
+                {this.renderChildren()}
             </Map>
         );
     }

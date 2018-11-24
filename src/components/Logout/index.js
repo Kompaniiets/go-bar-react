@@ -4,9 +4,6 @@ import { Auth } from '../../services/AuthService';
 
 export default function Logout(props) {
     HttpService.post('logout', {})
-        .then(() => {
-            Auth.logout();
-            props.history.replace('/');
-        })
-        .catch((err) =>console.log(err));
+        .then(() => Auth.logout())
+        .catch(err => console.log(err));
 }

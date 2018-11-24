@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import MarkerDataContainer from './MarkerData';
 import HttpService from '../../services/httpServices';
 import GoogleMap from './GoogleMap';
+import BarModel from '../../models/bar';
+import ScheduleModel from '../../models/schedule';
 import './style.css';
 
 export default class MapContainer extends Component {
     state = {
-        markers: []
+        markers: [{
+            ...BarModel({}),
+            schedule: { ...ScheduleModel({}) },
+        }]
     };
 
     componentDidMount() {
@@ -16,22 +21,14 @@ export default class MapContainer extends Component {
     getUserLocations = () => {
         HttpService.get('users/locations')
             .then(res => {
-                const arr = res.data.map(item => {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        info: item.info,
-                        opensIn: item.opensIn,
-                        closesIn: item.closesIn,
-                        numberOfTables: item.numberOfTables,
-                        lat: item.lat,
-                        lng: item.lng,
-                    }
-                });
+                const arr = res.data.map(item => ({
+                    ...BarModel(item),
+                    schedule: { ...ScheduleModel(item.schedule) },
+                }));
 
                 this.setState({ markers: arr });
             })
-            .catch((err) => console.log('err ', err));
+            .catch((err) => console.log(err));
     };
 
     onMapClicked = (props, map, coord) => {
@@ -39,29 +36,23 @@ export default class MapContainer extends Component {
         const lat = latLng.lat(), lng = latLng.lng();
 
         if (this.state.markers.length < 10) {
-            this.setState(previousState => {
-                return {
-                    markers: [
-                        ...previousState.markers,
-                        {
-                            id: null,
+            this.setState(previousState => ({
+                markers: [
+                    ...previousState.markers,
+                    {
+                        ...BarModel({
                             title: 'Title',
-                            info: '',
-                            opensIn: '',
-                            closesIn: '',
-                            numberOfTables: 1,
                             lat,
                             lng
-                        }
-                    ]
-                };
-            });
+                        }),
+                        schedule: { ...ScheduleModel({ numberOfTables: 1 }) },
+                    }
+                ]
+            }));
         }
     };
 
-    onUpdate = (arr) => {
-        this.setState({ markers: arr });
-    };
+    onUpdate = (arr) => this.setState({ markers: arr });
 
     onMarkerDelete = (index) => {
         const item = this.state.markers[index];
@@ -72,7 +63,7 @@ export default class MapContainer extends Component {
 
         HttpService.del(`users/locations/${item.id}`)
             .then(() => this.deleteLocationFromArray(index))
-            .catch((err) => console.log('err ', err));
+            .catch((err) => console.log(err));
     };
 
     deleteLocationFromArray = (index) => {
@@ -87,10 +78,12 @@ export default class MapContainer extends Component {
         this.props.onSubmit(arr, 'locations');
     };
 
+    onGetCenter = (coords) => {};
+
     render() {
         return (
             <React.Fragment>
-                <GoogleMap onMapClicked={this.onMapClicked} markers={this.state.markers} />
+                <GoogleMap onMapClicked={this.onMapClicked} markers={this.state.markers} onGetCenter={this.onGetCenter}/>
                 <MarkerDataContainer markers={this.state.markers} onUpdate={this.onUpdate}
                                      onDelete={this.onMarkerDelete} onSaveMarker={this.onSaveMarker}/>
             </React.Fragment>

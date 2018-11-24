@@ -1,6 +1,7 @@
 import config from '../config';
 import axios from 'axios';
 import { Auth } from '../services/AuthService';
+import ErrorHandler from '../services/ErrorHandler';
 
 const instance = axios.create({
     baseURL: `${config.url}${config.version}/`
@@ -18,15 +19,15 @@ instance.interceptors.response.use((response) => {
     return response.data
 }, (err) => {
     if (typeof err.response.data === 'string')
-        return Promise.reject(err.response);
+        ErrorHandler(err.response.status, err.response.statusText);
 
     if (err.response.data.code === 403 && err.response.data.errors[0].key[1] === 400032) {
         Auth.logout();
-        // window.location.reload(true);
-        return Promise.reject();
+        ErrorHandler(err.response.data.code, err.response.data.errors[0]);
     }
 
-    return Promise.reject(err.response.data.errors[0].message);
+    ErrorHandler(err.response.data.code, err.response.data.errors[0]);
+    return Promise.reject();
 });
 
 export default instance;

@@ -1,69 +1,169 @@
-* {
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-family: 'Nunito Sans', serif;
     outline: none;
-    -webkit-font-smoothing: antialiased;
 }
 
 html, body {
-    background: #F4F5F1;
-    height: 100%;
+    background: #26EFB4;
+    background: -webkit-linear-gradient(#26EFB4, #07466F);
+    background: -moz-linear-gradient(#26EFB4, #07466F);
+    background: linear-gradient(#26EFB4, #07466F);
 }
 
 #root {
-    height: 100%;
+    min-height: 100vh;
+}
+
+h1, h3, h4, h5, p, label {
+    margin: 0;
 }
 
 main {
-    height: 100%;
     padding: 15px;
     margin-left: 64px;
 }
 
-header {
-    background: #db3d44;
-    min-height: 64px;
-    padding: 10px;
+.full-height {
+    min-height: 100vh;
 }
 
 #root > nav {
     position: fixed;
+    border-right: 1px solid #fff;
+}
+
+#root > nav > button > span:nth-child(odd), #root > nav div {
+    opacity: 1;
+}
+
+#root > nav svg, #root > nav div {
+    color: #fff;
+    -webkit-transition: .5s all ease;
+    -o-transition: .3s all ease;
+    transition: .5s all ease;
+}
+
+#root > nav > div > div:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.background-gradient {
+    background: #26EFB4;
+    background: -webkit-linear-gradient(#26EFB4, #07466F);
+    background: -moz-linear-gradient(#26EFB4, #07466F);
+    background: linear-gradient(#26EFB4, #07466F);
 }
 
 .form-width {
     min-width: 300px;
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.login-btn, .facebook-btn-class {
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-weight: 400;
+    letter-spacing: .5px;
+    margin: 0;
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    text-transform: uppercase;
+    border: 1px solid #fff;
+    transition: .3s all ease;
+}
+
+.login-btn:hover, .facebook-btn-class:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: transparent;
+}
+
+.login-btn:focus, .facebook-btn-class:focus {
+    outline: none;
+}
+
+.form-group .form-control {
+    box-shadow: none;
+    border-color: #fff;
+    color: #000;
+    background: transparent ;
+}
+
+.card-body input[type=text], .card-body input[type=email], .card-body input[type=password] {
+    color: #fff;
 }
 
 .facebook-btn-class {
-    margin: 0;
-    height: 38px;
-    font-size: larger;
-    font-family: Helvetica,sans-serif;
-    color: #fff;
+    margin-top: 1em;
+}
+
+.fa-facebook:before {
+    font-family: FontAwesome;
+}
+
+.btn-style {
+    border-radius: 5px;
+    padding: 5px 20px;
     cursor: pointer;
-    background-color: #4c69ba;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    line-height: 1.5;
-    border-radius: 0.25rem;
-    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-    -o-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    font-weight: 400;
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    text-transform: uppercase;
+    border: 1px solid #000;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+.btn-style:focus {
+    outline: none;
+}
+
+.btn-style:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: transparent;
+}
+
+.avatar-style {
+    text-align: center;
 }
 
 @media screen and (max-width: 1200px) {
-    .profile-container .profile-location {
+    .profile-container .map-wrapper {
         width: 500px;
+    }
+    .profile-container .map-style {
         height: 300px;
     }
     .profile-container .profile-details {
         margin: 0 10px;
     }
+    main .bar-list {
+        min-width: 400px;
+    }
+    main .home-map {
+        min-width: 400px;
+    }
 }
 
 @media screen and (max-width: 992px) {
-    .profile-container .profile-location {
+    .profile-container .map-wrapper {
         width: 400px;
+    }
+    .profile-container .map-style {
         height: 230px;
     }
     .profile-container {
@@ -72,6 +172,20 @@ header {
     .profile-container .profile-details {
         margin: 0 10px;
     }
+    .bar-details-wrapper .single-table {
+        width: 70px;
+        height: 70px;
+    }
+    .bar-details-wrapper .table-content {
+        display: none;
+    }
+    main .bar-list {
+        min-width: 300px;
+    }
+    main .home-map {
+        min-width: 300px;
+        height: 400px;
+    }
 }
 
 @media screen and (max-width: 750px) {
@@ -79,13 +193,81 @@ header {
         flex-direction: column;
         align-items: center;
     }
-
     .profile-container .profile-details {
         margin: 0 10px 20px;
+    }
+    .bar-details-wrapper .single-table {
+        width: 50px;
+        height: 50px;
+    }
+    .home-wrapper {
+        flex-wrap: wrap-reverse;
+    }
+    main .bar-list {
+        padding: 0;
+    }
+    main .home-map {
+        margin-bottom: 10px;
+    }
+    .profile-container .marker-container {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .bar-details-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    main .profile-container {
+        margin: 0;
+    }
+    .tables-wrapper {
+        padding: 10px 30px;
+    }
+    main .bar-list {
+        min-width: 260px;
+    }
+    main .home-map {
+        min-width: 260px;
+        height: 300px;
+    }
+    main .map-style {
+        width: 380px !important;
+        height: 300px !important;
+        margin: 0 auto !important;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    main {
+        margin: 0;
+    }
+    main .map-style {
+        width: 300px !important;
+        height: 260px !important;
+        margin: 0 auto !important;
+    }
+    #root > nav {
+        display: flex;
+        height: 50px;
+        position: relative;
+        top: 0;
+        left: 0;
+        padding: 0 20px;
+    }
+    #root > nav > div {
+        display: flex;
+    }
+    #root > nav > button {
+        display: none;
+    }
+    #root > main .bar-details-wrapper {
+        min-width: 320px !important;
     }
 }
 
 .map-style {
     position: relative !important;
-    margin-bottom: 10px;
+    height: 400px !important;
 }

@@ -4,13 +4,12 @@
     margin: 0 50px;
 }
 
-.profile-location {
-    position: relative;
-    width: 900px;
-    height: 400px;
-    min-width: 320px;
+.profile-container button {
+    border-color: #fff;
 }
 
-.profile-location > div {
-    height: 100%;
+.map-wrapper {
+    position: relative;
+    width: 900px;
+    min-width: 320px;
 }

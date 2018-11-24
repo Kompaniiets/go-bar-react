@@ -5,34 +5,20 @@ import './style.css';
 export default class ViewProfile extends Component {
     onUpdate = (event) => {
         const arr = Array.from(this.props.markers);
-
-        if (event.id === 'lat' || event.id === 'lng') {
-            arr[event.key][event.id] = parseFloat(event.value);
-        } else if (event.id === 'opensIn' || event.id === 'closesIn') {
-            arr[event.key][event.id] = event.value + ':00';
+        if (event.id === 'opensIn' || event.id === 'closesIn') {
+            arr[event.key]['schedule'][event.id] = event.value;
+        } else if (event.id === 'numberOfTables') {
+            arr[event.key]['schedule'][event.id] = parseInt(event.value, 10);
         } else {
-            arr[event.key][event.id] = event.value;
+            arr[event.key][event.id] = (event.id !== 'lat' && event.id !== 'lng') ? event.value : parseFloat(event.value);
         }
 
         this.props.onUpdate(arr);
     };
 
-    onDelete = (event) => {
-        this.props.onDelete(event.target.value);
-    };
+    onDelete = (event) => this.props.onDelete(event.target.value);
 
-    onSaveMarker = (event) => {
-        let value;
-        if (event.target.id === 'numberOfTables') {
-            value = parseInt(event.target.value, 10);
-        } else if (event.target.id === 'opensIn' || event.target.id === 'closesIn') {
-            value = event.target.value + ':00';
-        } else {
-            value = event.target.value;
-        }
-
-        this.props.onSaveMarker(value);
-    };
+    onSaveMarker = (event) => this.props.onSaveMarker(event.target.value);
 
     render() {
         return (
@@ -50,15 +36,15 @@ export default class ViewProfile extends Component {
                                    onUpdate={this.onUpdate}
                             />
                             <Input id="opensIn" dataKey={index} type="time" label="Opens in:"
-                                   value={marker.opensIn}
+                                   value={marker.schedule.opensIn}
                                    onUpdate={this.onUpdate}
                             />
                             <Input id="closesIn" dataKey={index} type="time" label="Closes in:"
-                                   value={marker.closesIn}
+                                   value={marker.schedule.closesIn}
                                    onUpdate={this.onUpdate}
                             />
                             <Input id="numberOfTables" dataKey={index} type="number" label="Num of tables:"
-                                   value={marker.numberOfTables}
+                                   value={marker.schedule.numberOfTables}
                                    onUpdate={this.onUpdate}
                             />
                             <Input id="lat" dataKey={index} type="" label="Lat:"
@@ -72,13 +58,13 @@ export default class ViewProfile extends Component {
                             <div className="marker-btn">
                                 <button
                                     value={index}
-                                    className="btn btn-success btn-sm"
+                                    className="btn-style"
                                     onClick={this.onSaveMarker}>
                                     Save
                                 </button>
                                 <button
                                     value={index}
-                                    className="btn btn-danger btn-sm float-right"
+                                    className="btn-style btn-delete"
                                     onClick={this.onDelete}>
                                     Delete
                                 </button>

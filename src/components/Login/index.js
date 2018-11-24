@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.css'
-import './style.css'
-import Input from '../Input';
 import HttpService from '../../services/httpServices';
 import { Auth } from '../../services/AuthService';
+import UserModel from '../../models/user';
 import FB from './fbLogin';
+import Input from '../Input';
+import 'bootstrap/dist/css/bootstrap.css';
+import './style.css';
 
 export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            email: '',
-            password: '',
+            ...UserModel({}),
             hasError: false,
             errorMessage: null,
         };
     }
 
-    onUpdate = (event) => {
-        this.setState({ [event.id]: event.value });
-    };
+    onUpdate = (event) => this.setState({ [event.id]: event.value });
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -27,14 +25,10 @@ export default class Login extends Component {
         HttpService.post('login', {
             email: event.target.email.value,
             password: event.target.password.value,
-        })
-            .then(res => {
-                if (res.data) {
-                    Auth.setStorage(res.data);
-                    this.props.history.push('/');
-                }
-            })
-            .catch((err) => this.handleError(err));
+        }).then(res => {
+            Auth.setStorage(res.data);
+            this.props.history.push('/');
+        }).catch((err) => this.handleError(err));
     };
 
     handleError = (err) => {
@@ -49,8 +43,8 @@ export default class Login extends Component {
             <p>{this.state.errorMessage}</p> : '';
 
         return (
-            <div className="container login-form">
-                <div className="card rounded-0 form-width">
+            <div className="container login-form full-height">
+                <div className="card form-width">
 
                     <div className="card-header text-center">
                         <h3 className="mb-0">Login</h3>
@@ -70,16 +64,17 @@ export default class Login extends Component {
 
                             {err}
 
+                            <button
+                                type="submit"
+                                className="login-btn"
+                                id="btnLogin">
+                                Login
+                            </button>
+
                             <FB
                                 {...this.props}
                                 handleError={this.handleError}
                             />
-                            <button
-                                type="submit"
-                                className="btn btn-success btn-md float-right"
-                                id="btnLogin">
-                                Login
-                            </button>
                         </form>
                     </div>
 

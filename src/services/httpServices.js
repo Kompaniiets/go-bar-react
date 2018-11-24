@@ -19,6 +19,12 @@ export default class HttpService {
         });
     }
 
+    static put(endpoint, data, headers = {}) {
+        return API.put(endpoint, data, {
+            headers
+        });
+    }
+
     static del(endpoint, headers = {}) {
         return API.delete(endpoint, {
             headers
