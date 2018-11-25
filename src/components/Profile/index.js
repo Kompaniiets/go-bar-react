@@ -5,6 +5,7 @@ import MapContainer from '../Map';
 import HttpService from '../../services/httpServices';
 import UserModel from '../../models/user';
 import { Auth } from '../../services/AuthService';
+import { SuccessHandler } from '../../services/ResponseHandler';
 import './style.css';
 
 export default class Profile extends Component {
@@ -27,15 +28,19 @@ export default class Profile extends Component {
     }
 
     onSubmit = (data, type) => {
-        // if (type === 'info') {
-        //     HttpService.patch('users/me', data)
-        //         .then(res => Auth.updateStorage(res.data))
-        //         .catch((err) => console.log('err ', err));
-        // } else {
-        //     HttpService.post('users/locations', data)
-        //         .then(res => console.log('res ', res))
-        //         .catch((err) => console.log('err ', err));
-        // }
+        if (type === 'info') {
+            HttpService.patch('users/me', data)
+                .then(res => {
+                    SuccessHandler('Profile successfully updated!');
+                    return res;
+                })
+                .then(res => Auth.updateStorage(res.data))
+                .catch((err) => console.log('err ', err));
+        } else {
+            HttpService.post('users/locations', data)
+                .then(() => SuccessHandler('Location added!'))
+                .catch((err) => console.log('err ', err));
+        }
     };
 
     onProfileUpdate = (event) => {

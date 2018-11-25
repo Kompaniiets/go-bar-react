@@ -7,6 +7,7 @@ import { Auth } from '../../services/AuthService';
 import BarModel from '../../models/bar';
 import UserModel from '../../models/user';
 import ScheduleModel from '../../models/schedule';
+import { SuccessHandler } from '../../services/ResponseHandler';
 import './style.css';
 
 export default class BarDetails extends Component {
@@ -60,6 +61,9 @@ export default class BarDetails extends Component {
             id: parseInt(id, 10),
             date: this.state.date,
             duration: this.state.duration
+        }).then(res => {
+            SuccessHandler('The table successfully booked!');
+            return res;
         }).then(res => {
             const item = {
                 ...BarModel(res.data),

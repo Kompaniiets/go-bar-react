@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HttpService from '../../../services/httpServices';
 import './style.css';
+import { SuccessHandler } from "../../../services/ResponseHandler";
 
 export default class UploadLogo extends Component {
     state = {
@@ -17,7 +18,11 @@ export default class UploadLogo extends Component {
         HttpService.put('users/bars/avatar', formData, {
             'content-type': 'multipart/form-data'
         })
-            .then(res => this.props.onProfileUpdate({id: 'avatarUrl', value: res.data.avatarUrl}))
+            .then(res => {
+                SuccessHandler('Avatar successfully upload!');
+                return res;
+            })
+            .then(res => this.props.onProfileUpdate({ id: 'avatarUrl', value: res.data.avatarUrl }))
             .catch();
     };
 

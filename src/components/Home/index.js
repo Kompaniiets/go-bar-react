@@ -17,7 +17,7 @@ export default class Home extends Component {
         pagination: { ...PaginationModel({}) }
     };
 
-    getBars = (position, offset = this.state.pagination.offset, limit = this.state.pagination.limit) => {
+    getBars = (position, offset = 0, limit = 5) => {
         HttpService.get('bars/list', {
             ...position,
             limit,

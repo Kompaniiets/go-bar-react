@@ -16,17 +16,21 @@ export default class Pagination extends Component {
 
         return (
             <div className="pagination-wrapper">
-                <ReactPaginate previousLabel={"<<"}
-                               nextLabel={">>"}
-                               breakLabel={"..."}
-                               breakClassName={"break-me"}
-                               pageCount={totalPages}
-                               marginPagesDisplayed={1}
-                               pageRangeDisplayed={2}
-                               onPageChange={this.handlePageClick}
-                               containerClassName={"pagination"}
-                               subContainerClassName={"pages pagination"}
-                               activeClassName={"active"}/>
+                {
+                    pagination.total !== 0 ?
+                        <ReactPaginate previousLabel={"<<"}
+                                       nextLabel={">>"}
+                                       breakLabel={"..."}
+                                       breakClassName={"break-me"}
+                                       pageCount={totalPages}
+                                       marginPagesDisplayed={1}
+                                       pageRangeDisplayed={2}
+                                       onPageChange={this.handlePageClick}
+                                       containerClassName={"pagination"}
+                                       subContainerClassName={"pages pagination"}
+                                       activeClassName={"active"}/>
+                        : ''
+                }
             </div>
         )
     }
