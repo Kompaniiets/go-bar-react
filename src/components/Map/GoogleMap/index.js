@@ -3,7 +3,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import GetCurrentLocation from '../../../helpers/getCurrentLocation';
 import config from '../../../config';
 import MarkerInfoContainer from '../MarkerInfo';
-import ErrorHandler from '../../../services/ErrorHandler';
+import { ErrorHandler } from '../../../services/ResponseHandler';
 
 export class MapContainer extends Component {
     state = {

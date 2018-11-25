@@ -18,6 +18,7 @@ class FacebookComponent extends Component {
                 if (user.data && user.data.isBar === null) {
                     const result = (window.confirm('Login as bar?')).toString();
                     return HttpService.patch('users/role', { isBar: result })
+                        .then(user => Auth.updateStorage(user.data))
                 }
             })
             .then(() => this.props.history.push('/'))

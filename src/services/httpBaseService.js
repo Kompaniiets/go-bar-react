@@ -1,7 +1,7 @@
 import config from '../config';
 import axios from 'axios';
 import { Auth } from '../services/AuthService';
-import ErrorHandler from '../services/ErrorHandler';
+import { ErrorHandler } from './ResponseHandler';
 
 const instance = axios.create({
     baseURL: `${config.url}${config.version}/`
