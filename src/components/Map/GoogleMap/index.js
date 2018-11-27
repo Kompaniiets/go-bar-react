@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import GetCurrentLocation from '../../../helpers/getCurrentLocation';
 import config from '../../../config';
 import MarkerInfoContainer from '../MarkerInfo';
 import { ErrorHandler } from '../../../services/ResponseHandler';
+import axios from 'axios';
 
 export class MapContainer extends Component {
     state = {
@@ -15,13 +15,16 @@ export class MapContainer extends Component {
     };
 
     componentDidMount() {
-        GetCurrentLocation()
-            .then((location) => {
-                this.setState({
-                    center: location,
-                });
+        axios.get('http://ip-api.com/json')
+            .then((result) => {
+                const location = {
+                    lat: result.data.lat,
+                    lng: result.data.lon,
+                };
+                this.setState({ center: location });
                 this.props.onGetCenter(location);
-            }).catch((error) => ErrorHandler(400, error));
+            })
+            .catch((error) => ErrorHandler(400, error));
     }
 
     onMarkerClick = (props, marker, e) => {
