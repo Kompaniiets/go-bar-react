@@ -12,7 +12,12 @@
 }
 
 .search-wrapper div {
-    margin: 5px;
+    margin: 5px 0;
+}
+
+form {
+    width: 180px;
+    padding: 5px 0 0 10px;
 }
 
 .radius-btn-container {
@@ -30,8 +35,13 @@
     padding: 0 5px;
 }
 
+#place {
+    width: 100%;
+}
+
 .radius-btn-container input[type=submit] {
     padding: 0 20px;
     border-color: #fff;
-    color: #fff;
+    color: #000;
+    background: #fff;
 }
