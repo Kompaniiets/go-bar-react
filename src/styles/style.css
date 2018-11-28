@@ -104,6 +104,10 @@ main {
     background: transparent ;
 }
 
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
 .card-body input[type=text],
 .card-body input[type=email],
 .card-body input[type=password],

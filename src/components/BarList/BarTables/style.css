@@ -21,20 +21,26 @@
     transform: translateY(-50%);
 }
 
-.booked-table:hover {
-    background: #26EFB4;
+.marker-container {
+    margin: 10px 0;
+}
+
+.booked-table {
+    background: #f46b45;
     background: -webkit-gradient(linear, left top, left bottom, from(#f46b45), to(#eea849));
     background: -o-linear-gradient(#f46b45, #eea849);
     background: linear-gradient(to right, #f46b45, #eea849);
-    -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }
 
-.free-table:hover {
+.free-table {
     background: #26EFB4;
     background: -webkit-gradient(linear, left top, left bottom, from(#11FFBD), to(#1D976C));
     background: -o-linear-gradient(#26EFB4, #07466F);
     background: linear-gradient(to right, #11FFBD, #1D976C);
+}
+
+.booked-table:hover,
+.free-table:hover {
     -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.6);
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }

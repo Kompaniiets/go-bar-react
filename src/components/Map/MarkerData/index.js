@@ -43,7 +43,7 @@ export default class ViewProfile extends Component {
                                    value={marker.schedule.closesIn}
                                    onUpdate={this.onUpdate}
                             />
-                            <Input id="numberOfTables" dataKey={index} type="number" label="Num of tables:"
+                            <Input id="numberOfTables" dataKey={index} type="number" label="Tables:"
                                    value={marker.schedule.numberOfTables}
                                    onUpdate={this.onUpdate}
                             />
