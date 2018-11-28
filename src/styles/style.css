@@ -243,6 +243,9 @@ main {
         height: 300px !important;
         margin: 0 auto !important;
     }
+    #place {
+        width: 150px;
+    }
 }
 
 @media screen and (max-width: 450px) {

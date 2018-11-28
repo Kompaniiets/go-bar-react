@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import './style.css';
-
-library.add(fas);
 
 export default class Search extends Component {
     state = {
-        radius: 2
+        radius: 2,
+        place: null
     };
 
     componentDidMount() {
@@ -19,7 +15,24 @@ export default class Search extends Component {
         if (this.props !== prevProps.map) this.renderAutoComplete();
     }
 
-    onSubmit = (e) => e.preventDefault();
+    onSubmit = (e) => {
+        e.preventDefault();
+        const place = this.state.place, { map } = this.props;
+
+        if (!this.state.place || !place.geometry) return;
+
+        if (place.geometry.viewport) map.fitBounds(place.geometry.viewport);
+        else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(14);
+        }
+
+        this.props.getBars({
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng(),
+            radius: this.state.radius,
+        });
+    };
 
     onRadiusChange = (event) => this.setState({ radius: parseInt(event.target.value, 10) });
 
@@ -33,20 +46,7 @@ export default class Search extends Component {
 
         autoComplete.addListener('place_changed', () => {
             const place = autoComplete.getPlace();
-
-            if (!place.geometry) return;
-
-            if (place.geometry.viewport) map.fitBounds(place.geometry.viewport);
-            else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(14);
-            }
-
-            this.props.getBars({
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng(),
-                radius: this.state.radius,
-            });
+            this.setState({ place: place });
         });
     };
 
@@ -54,8 +54,7 @@ export default class Search extends Component {
         return (
             <div className="search-wrapper">
                 <form onSubmit={this.onSubmit}>
-                    <div>
-                        <label htmlFor="radius"><FontAwesomeIcon icon={fas.faCircleNotch}/></label>
+                    <div className="radius-btn-container">
                         <input
                             id="radius"
                             placeholder="Radius"
@@ -65,9 +64,9 @@ export default class Search extends Component {
                             onChange={this.onRadiusChange}
                             type="number"
                         />
+                        <input className="btn-style" type="submit" value="Go" />
                     </div>
                     <div>
-                        <label htmlFor="place"><FontAwesomeIcon icon={fas.faCompass}/></label>
                         <input
                             id="place"
                             placeholder="Enter a location"
