@@ -68,7 +68,8 @@ main {
     text-transform: uppercase;
 }
 
-.login-btn, .facebook-btn-class {
+.login-btn,
+.facebook-btn-class {
     border-radius: 5px;
     font-size: 16px;
     color: #fff;
@@ -85,12 +86,14 @@ main {
     transition: .3s all ease;
 }
 
-.login-btn:hover, .facebook-btn-class:hover {
+.login-btn:hover,
+.facebook-btn-class:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: transparent;
 }
 
-.login-btn:focus, .facebook-btn-class:focus {
+.login-btn:focus,
+.facebook-btn-class:focus {
     outline: none;
 }
 
@@ -101,7 +104,10 @@ main {
     background: transparent ;
 }
 
-.card-body input[type=text], .card-body input[type=email], .card-body input[type=password] {
+.card-body input[type=text],
+.card-body input[type=email],
+.card-body input[type=password],
+.card-body input[type=phone] {
     color: #fff;
 }
 
