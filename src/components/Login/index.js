@@ -3,42 +3,60 @@ import HttpService from '../../services/httpServices';
 import { Auth } from '../../services/AuthService';
 import FB from './fbLogin';
 import Input from '../Input';
-import 'bootstrap/dist/css/bootstrap.css';
-import './style.css';
 import {
     email,
     password
 } from '../../validators';
+import Validation from '../../services/ValidationService';
+import { updateState } from '../../services/StatelessService';
+import { WarningHandler } from '../../services/ResponseHandler';
+import 'bootstrap/dist/css/bootstrap.css';
+import './style.css';
+
+const inputModel = {
+    value: '',
+    valid: false,
+    blurred: false,
+    errorMessage: '',
+    validateSchema: []
+};
+
+const initialState = {
+    email: Object.assign({}, inputModel, { validateSchema: [email] }),
+    password: Object.assign({}, inputModel, { validateSchema: [password] }),
+};
 
 export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            email: {
-                value: '',
-                valid: false,
-                blurred: false,
-                errorMessage: '',
-                validateSchema: [email]
-            },
-            password: {
-                value: '',
-                valid: false,
-                blurred: false,
-                errorMessage: '',
-                validateSchema: [password]
-            },
+            ...initialState,
             hasError: false
         };
+        this.validation = new Validation(this);
+        this.updateState = updateState.bind(this);
     }
 
     onUpdate = (event) => {
         this.updateState(event.id, { value: event.value });
-        this.validateInput(event, this.state[event.id].validateSchema);
+        this.validation.validateInput(event, this.state[event.id].validateSchema);
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
+
+        const submitObj = {};
+
+        for (let key in this.state) {
+            if (this.state[key].hasOwnProperty('valid') && this.state[key].valid === false) {
+                WarningHandler('Some input has invalid value!');
+                return;
+            }
+
+            if (this.state[key].hasOwnProperty('value')) {
+                submitObj[key] = this.state[key].value;
+            }
+        }
 
         HttpService.post('login', {
             email: event.target.email.value,
@@ -49,29 +67,7 @@ export default class Login extends Component {
         }).catch((err) => console.log(err));
     };
 
-    handleOnBlur = (element, status) => {
-        this.updateState(element, { blurred: status });
-    };
-
-    validateInput = (element, schema) => {
-        const { id, value } = element;
-
-        schema.forEach(item => {
-            const invalid = item(value);
-
-            if (!invalid) {
-                this.updateState(id, { valid: true, errorMessage: '' });
-            } else {
-                this.updateState(id, { valid: false, errorMessage: invalid });
-            }
-        });
-    };
-
-    updateState = (element, value) => {
-        this.setState(prevState => ({
-            [element]: Object.assign(prevState[element], value)
-        }));
-    };
+    handleOnBlur = (element, status) => this.updateState(element, { blurred: status });
 
     render() {
         return (
@@ -86,7 +82,6 @@ export default class Login extends Component {
                             <Input id="email" type="email" label="Email"
                                    value={this.state.email.value}
                                    onUpdate={this.onUpdate}
-                                   validation={[email]}
                                    handleOnBlur={this.handleOnBlur}
                             />
                             <div className="form-error">
@@ -95,7 +90,6 @@ export default class Login extends Component {
                             <Input id="password" type="password" label="Password"
                                    value={this.state.password.value}
                                    onUpdate={this.onUpdate}
-                                   validation={[password]}
                                    handleOnBlur={this.handleOnBlur}
                             />
                             <div className="form-error">
