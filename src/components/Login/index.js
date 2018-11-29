@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import HttpService from '../../services/httpServices';
 import { Auth } from '../../services/AuthService';
-import UserModel from '../../models/user';
 import FB from './fbLogin';
 import Input from '../Input';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
 import {
-    required,
     email,
     password
 } from '../../validators';
@@ -16,12 +14,28 @@ export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            user: { ...UserModel({}) },
+            email: {
+                value: '',
+                valid: false,
+                blurred: false,
+                errorMessage: '',
+                validateSchema: [email]
+            },
+            password: {
+                value: '',
+                valid: false,
+                blurred: false,
+                errorMessage: '',
+                validateSchema: [password]
+            },
             hasError: false
         };
     }
 
-    onUpdate = (event) => this.setState({ user: { [event.id]: event.value } });
+    onUpdate = (event) => {
+        this.updateState(event.id, { value: event.value });
+        this.validateInput(event, this.state[event.id].validateSchema);
+    };
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -32,12 +46,31 @@ export default class Login extends Component {
         }).then(res => {
             Auth.setStorage(res.data);
             this.props.history.push('/');
-        }).catch((err) => this.handleError(err));
+        }).catch((err) => console.log(err));
     };
 
-    handleError = (status) => {
-        console.log(this.state.user);
-        this.setState({ hasError: status })
+    handleOnBlur = (element, status) => {
+        this.updateState(element, { blurred: status });
+    };
+
+    validateInput = (element, schema) => {
+        const { id, value } = element;
+
+        schema.forEach(item => {
+            const invalid = item(value);
+
+            if (!invalid) {
+                this.updateState(id, { valid: true, errorMessage: '' });
+            } else {
+                this.updateState(id, { valid: false, errorMessage: invalid });
+            }
+        });
+    };
+
+    updateState = (element, value) => {
+        this.setState(prevState => ({
+            [element]: Object.assign(prevState[element], value)
+        }));
     };
 
     render() {
@@ -51,17 +84,23 @@ export default class Login extends Component {
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit} className="form-horizontal">
                             <Input id="email" type="email" label="Email"
-                                   value={this.state.user.email}
-                                   handleError={this.handleError}
+                                   value={this.state.email.value}
                                    onUpdate={this.onUpdate}
-                                   validation={[required, email]}
+                                   validation={[email]}
+                                   handleOnBlur={this.handleOnBlur}
                             />
+                            <div className="form-error">
+                                {this.state.email.blurred && !this.state.email.valid ? <p>{this.state.email.errorMessage}</p> : ''}
+                            </div>
                             <Input id="password" type="password" label="Password"
-                                   value={this.state.user.password}
-                                   handleError={this.handleError}
+                                   value={this.state.password.value}
                                    onUpdate={this.onUpdate}
-                                   validation={[required, password]}
+                                   validation={[password]}
+                                   handleOnBlur={this.handleOnBlur}
                             />
+                            <div className="form-error">
+                                {this.state.password.blurred && !this.state.password.valid ? <p>{this.state.password.errorMessage}</p> : ''}
+                            </div>
 
                             <button
                                 type="submit"
@@ -71,9 +110,7 @@ export default class Login extends Component {
                                 Login
                             </button>
 
-                            <FB
-                                {...this.props}
-                            />
+                            <FB {...this.props}/>
                         </form>
                     </div>
 
