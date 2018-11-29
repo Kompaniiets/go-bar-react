@@ -46,8 +46,5 @@ export const phone = (value) => {
 };
 
 export const confirmPassword = (value) => {
-    if (validator.isEmail(value)) {
-        return 'Invalid email!';
-    }
     return false;
 };
