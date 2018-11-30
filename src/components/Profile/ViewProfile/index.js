@@ -12,9 +12,10 @@ export default class ViewProfile extends Component {
 
     onProfileUpdate = (event) => this.props.onProfileUpdate(event);
 
+    handleOnBlur = (element, status) => {};
+
     render() {
         const user = this.props.user;
-        const error = this.props.error;
 
         return (
             <div className="profile-details">
@@ -23,8 +24,8 @@ export default class ViewProfile extends Component {
                         <li>
                             <Input id="email" type="email" label="Email:"
                                    value={user.email}
-                                   hasError={error.hasError}
                                    onUpdate={this.onProfileUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                         </li>
                         {
@@ -33,15 +34,15 @@ export default class ViewProfile extends Component {
                                     <li>
                                         <Input id="firstName" type="text" label="First Name:"
                                                value={user.firstName}
-                                               hasError={error.hasError}
                                                onUpdate={this.onProfileUpdate}
+                                               handleOnBlur={this.handleOnBlur}
                                         />
                                     </li>
                                     <li>
                                         <Input id="lastName" type="text" label="Last Name:"
                                                value={user.lastName}
-                                               hasError={error.hasError}
                                                onUpdate={this.onProfileUpdate}
+                                               handleOnBlur={this.handleOnBlur}
                                         />
                                     </li>
                                 </React.Fragment>
@@ -50,15 +51,15 @@ export default class ViewProfile extends Component {
                                     <li>
                                         <Input id="barName" type="text" label="Bar Name:"
                                                value={user.barName}
-                                               hasError={error.hasError}
                                                onUpdate={this.onProfileUpdate}
+                                               handleOnBlur={this.handleOnBlur}
                                         />
                                     </li>
                                     <li>
                                         <Input id="phone" type="tel" label="Phone:"
                                                value={user.phone}
-                                               hasError={error.hasError}
                                                onUpdate={this.onProfileUpdate}
+                                               handleOnBlur={this.handleOnBlur}
                                         />
                                     </li>
                                 </React.Fragment>
@@ -66,8 +67,8 @@ export default class ViewProfile extends Component {
                         <li>
                             <Input id="createdAt" type="text" label="Created at:" disabled="disabled"
                                    value={new Date(user.createdAt).toLocaleString()}
-                                   hasError={error.hasError}
                                    onUpdate={this.onProfileUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                         </li>
                     </ol>

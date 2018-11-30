@@ -9,13 +9,12 @@ import { SuccessHandler } from '../../services/ResponseHandler';
 import './style.css';
 
 export default class Profile extends Component {
-    state = {
-        user: { ...UserModel({}) },
-        error: {
-            hasError: false,
-            errorMessage: ''
-        }
-    };
+    constructor() {
+        super();
+        this.state = {
+            user: { ...UserModel({}) },
+        };
+    }
 
     componentDidMount() {
         HttpService.get('users/me')
@@ -24,7 +23,7 @@ export default class Profile extends Component {
                     user: { ...res.data }
                 });
             })
-            .catch((err) => this.handleError(err));
+            .catch((err) => console.log(err));
     }
 
     onSubmit = (data, type) => {
@@ -52,15 +51,6 @@ export default class Profile extends Component {
         }));
     };
 
-    handleError = (err) => {
-        this.setState({
-            error: {
-                hasError: true,
-                errorMessage: err
-            }
-        });
-    };
-
     render() {
         const check = Auth.getProfile();
         return (
@@ -69,13 +59,11 @@ export default class Profile extends Component {
                     <ViewProfile
                         onSubmit={this.onSubmit}
                         user={this.state.user}
-                        error={this.state.error}
                         onProfileUpdate={this.onProfileUpdate}
                     />
                     {check.isBar ?
                         <UploadLogo
                             avatarUrl={this.state.user.avatarUrl}
-                            error={this.state.error}
                             onProfileUpdate={this.onProfileUpdate}
                         />
                         : ''}

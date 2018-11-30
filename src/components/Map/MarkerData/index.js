@@ -20,6 +20,8 @@ export default class ViewProfile extends Component {
 
     onSaveMarker = (event) => this.props.onSaveMarker(event.target.value);
 
+    handleOnBlur = (element, status) => {};
+
     render() {
         return (
             <div className="marker-container">
@@ -30,30 +32,37 @@ export default class ViewProfile extends Component {
                             <Input id="title" dataKey={index} type="text" label="Title:"
                                    value={marker.title}
                                    onUpdate={this.onUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                             <Input id="info" dataKey={index} type="text" label="Info:"
                                    value={marker.info}
                                    onUpdate={this.onUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                             <Input id="opensIn" dataKey={index} type="time" label="Opens in:"
                                    value={marker.schedule.opensIn}
                                    onUpdate={this.onUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                             <Input id="closesIn" dataKey={index} type="time" label="Closes in:"
                                    value={marker.schedule.closesIn}
                                    onUpdate={this.onUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                             <Input id="numberOfTables" dataKey={index} type="number" label="Tables:"
                                    value={marker.schedule.numberOfTables}
                                    onUpdate={this.onUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                             <Input id="lat" dataKey={index} type="" label="Lat:"
                                    value={marker.lat}
                                    onUpdate={this.onUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                             <Input id="lng" dataKey={index} type="text" label="Lng:"
                                    value={marker.lng}
                                    onUpdate={this.onUpdate}
+                                   handleOnBlur={this.handleOnBlur}
                             />
                             <div className="marker-btn">
                                 <button

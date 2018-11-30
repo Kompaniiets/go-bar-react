@@ -6,28 +6,21 @@ import {
     password,
     phone,
     required,
-    name
+    name,
 } from '../../validators';
 import Validation from '../../services/ValidationService';
 import { updateState } from '../../services/StatelessService';
-import { WarningHandler } from '../../services/ResponseHandler';
-
-const inputModel = {
-    value: '',
-    valid: false,
-    blurred: false,
-    errorMessage: '',
-    validateSchema: []
-};
+import CheckValidForm from '../../helpers/checkValidForm';
+import InputModel from '../../models/input';
 
 const initialState = {
-    email: Object.assign({}, inputModel, { validateSchema: [email] }),
-    firstName: Object.assign({}, inputModel, { validateSchema: [required, name] }),
-    lastName: Object.assign({}, inputModel, { validateSchema: [required, name] }),
-    barName: Object.assign({}, inputModel, { valid: true, validateSchema: [required, name] }),
-    phone: Object.assign({}, inputModel, { valid: true,  validateSchema: [phone] }),
-    password: Object.assign({}, inputModel, { validateSchema: [password] }),
-    confirmPassword: Object.assign({}, inputModel, { validateSchema: [] }),
+    email: Object.assign({}, InputModel, { validateSchema: [email], errorMessage: 'Required!' }),
+    firstName: Object.assign({}, InputModel, { validateSchema: [required, name], errorMessage: 'Required!' }),
+    lastName: Object.assign({}, InputModel, { validateSchema: [required, name], errorMessage: 'Required!' }),
+    barName: Object.assign({}, InputModel, { valid: true, validateSchema: [required, name], errorMessage: 'Required!' }),
+    phone: Object.assign({}, InputModel, { valid: true,  validateSchema: [phone], errorMessage: 'Required!' }),
+    password: Object.assign({}, InputModel, { validateSchema: [password], errorMessage: 'Required!' }),
+    confirmPassword: Object.assign({}, InputModel, { validateSchema: [required], errorMessage: 'Required!' }),
     isBar: false,
 };
 
@@ -46,18 +39,9 @@ export default class RegisterForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const submitObj = {};
+        const submitObj = CheckValidForm(this.state);
 
-        for (let key in this.state) {
-            if (this.state[key].hasOwnProperty('valid') && this.state[key].valid === false) {
-                WarningHandler('Some input has invalid value!');
-                return;
-            }
-
-            if (this.state[key].hasOwnProperty('value')) {
-                submitObj[key] = this.state[key].value;
-            }
-        }
+        if (submitObj === false) return;
 
         submitObj.isBar = this.state.isBar;
         this.props.onSubmit(submitObj);

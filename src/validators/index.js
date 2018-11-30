@@ -45,6 +45,7 @@ export const phone = (value) => {
     return false;
 };
 
-export const confirmPassword = (value) => {
+export const confirmPassword = (password, confirm) => {
+    console.log('1111111111');
     return false;
 };

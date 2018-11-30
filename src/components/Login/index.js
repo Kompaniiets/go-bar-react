@@ -9,30 +9,20 @@ import {
 } from '../../validators';
 import Validation from '../../services/ValidationService';
 import { updateState } from '../../services/StatelessService';
-import { WarningHandler } from '../../services/ResponseHandler';
+import CheckValidForm from '../../helpers/checkValidForm';
+import InputModel from '../../models/input';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
 
-const inputModel = {
-    value: '',
-    valid: false,
-    blurred: false,
-    errorMessage: '',
-    validateSchema: []
-};
-
 const initialState = {
-    email: Object.assign({}, inputModel, { validateSchema: [email] }),
-    password: Object.assign({}, inputModel, { validateSchema: [password] }),
+    email: Object.assign({}, InputModel, { validateSchema: [email], errorMessage: 'Required!' }),
+    password: Object.assign({}, InputModel, { validateSchema: [password], errorMessage: 'Required!' }),
 };
 
 export default class Login extends Component {
     constructor() {
         super();
-        this.state = {
-            ...initialState,
-            hasError: false
-        };
+        this.state = initialState;
         this.validation = new Validation(this);
         this.updateState = updateState.bind(this);
     }
@@ -44,19 +34,9 @@ export default class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        const submitObj = CheckValidForm(this.state);
 
-        const submitObj = {};
-
-        for (let key in this.state) {
-            if (this.state[key].hasOwnProperty('valid') && this.state[key].valid === false) {
-                WarningHandler('Some input has invalid value!');
-                return;
-            }
-
-            if (this.state[key].hasOwnProperty('value')) {
-                submitObj[key] = this.state[key].value;
-            }
-        }
+        if (submitObj === false) return;
 
         HttpService.post('login', {
             email: event.target.email.value,
@@ -99,7 +79,6 @@ export default class Login extends Component {
                             <button
                                 type="submit"
                                 className="login-btn"
-                                disabled={this.state.hasError}
                                 id="btnLogin">
                                 Login
                             </button>
