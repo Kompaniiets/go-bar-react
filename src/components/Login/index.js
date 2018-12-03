@@ -1,30 +1,42 @@
 import React, { Component } from 'react';
 import HttpService from '../../services/httpServices';
 import { Auth } from '../../services/AuthService';
-import UserModel from '../../models/user';
 import FB from './fbLogin';
 import Input from '../Input';
-import 'bootstrap/dist/css/bootstrap.css';
-import './style.css';
 import {
-    required,
     email,
     password
 } from '../../validators';
+import Validation from '../../services/ValidationService';
+import { updateState } from '../../services/StatelessService';
+import CheckValidForm from '../../helpers/checkValidForm';
+import InputModel from '../../models/input';
+import 'bootstrap/dist/css/bootstrap.css';
+import './style.css';
+
+const initialState = {
+    email: Object.assign({}, InputModel, { validateSchema: [email], errorMessage: 'Required!' }),
+    password: Object.assign({}, InputModel, { validateSchema: [password], errorMessage: 'Required!' }),
+};
 
 export default class Login extends Component {
     constructor() {
         super();
-        this.state = {
-            user: { ...UserModel({}) },
-            hasError: false
-        };
+        this.state = initialState;
+        this.validation = new Validation(this);
+        this.updateState = updateState.bind(this);
     }
 
-    onUpdate = (event) => this.setState({ user: { [event.id]: event.value } });
+    onUpdate = (event) => {
+        this.updateState(event.id, { value: event.value });
+        this.validation.validateInput(event, this.state[event.id].validateSchema);
+    };
 
     handleSubmit = (event) => {
         event.preventDefault();
+        const submitObj = CheckValidForm(this.state);
+
+        if (submitObj === false) return;
 
         HttpService.post('login', {
             email: event.target.email.value,
@@ -32,13 +44,10 @@ export default class Login extends Component {
         }).then(res => {
             Auth.setStorage(res.data);
             this.props.history.push('/');
-        }).catch((err) => this.handleError(err));
+        }).catch((err) => console.log(err));
     };
 
-    handleError = (status) => {
-        console.log(this.state.user);
-        this.setState({ hasError: status })
-    };
+    handleOnBlur = (element, status) => this.updateState(element, { blurred: status });
 
     render() {
         return (
@@ -51,29 +60,30 @@ export default class Login extends Component {
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit} className="form-horizontal">
                             <Input id="email" type="email" label="Email"
-                                   value={this.state.user.email}
-                                   handleError={this.handleError}
+                                   value={this.state.email.value}
                                    onUpdate={this.onUpdate}
-                                   validation={[required, email]}
+                                   handleOnBlur={this.handleOnBlur}
                             />
+                            <div className="form-error">
+                                {this.state.email.blurred && !this.state.email.valid ? <p>{this.state.email.errorMessage}</p> : ''}
+                            </div>
                             <Input id="password" type="password" label="Password"
-                                   value={this.state.user.password}
-                                   handleError={this.handleError}
+                                   value={this.state.password.value}
                                    onUpdate={this.onUpdate}
-                                   validation={[required, password]}
+                                   handleOnBlur={this.handleOnBlur}
                             />
+                            <div className="form-error">
+                                {this.state.password.blurred && !this.state.password.valid ? <p>{this.state.password.errorMessage}</p> : ''}
+                            </div>
 
                             <button
                                 type="submit"
                                 className="login-btn"
-                                disabled={this.state.hasError}
                                 id="btnLogin">
                                 Login
                             </button>
 
-                            <FB
-                                {...this.props}
-                            />
+                            <FB {...this.props}/>
                         </form>
                     </div>
 

@@ -3,6 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 import HttpService from '../../../services/httpServices';
 import { Auth } from '../../../services/AuthService';
 import Constants from '../../../constants';
+import { ErrorHandler } from '../../../services/ResponseHandler';
 
 class FacebookComponent extends Component {
     responseFacebook = (res) => {
@@ -25,7 +26,7 @@ class FacebookComponent extends Component {
             .catch((err) => console.log(err));
     };
 
-    errorFacebook = (err) => console.log(err);
+    errorFacebook = (err) => ErrorHandler(400, { message: 'Bad Request' });
 
     render() {
         return (

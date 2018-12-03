@@ -21,6 +21,16 @@ export const ErrorHandler = (code, err) => {
     ShowAlert('error', template);
 };
 
+export const WarningHandler = (message) => {
+    const template = (
+        <div>
+            <p>{message}</p>
+        </div>
+    );
+
+    ShowAlert('warning', template);
+};
+
 function ShowAlert(status, template) {
     Alert[status](template, {
         position: 'top-right',

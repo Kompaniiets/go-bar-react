@@ -3,21 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './style.css';
 
 export default class Input extends Component {
-    state = {
-        value: '',
-        hasError: false,
-        isBlurred: false,
-        errorMessage: ''
-    };
-
-    componentDidMount() {
-        this.validateInput(this.state.value);
-    }
+    state = { value: '' };
 
     handleChange = (event) => {
-        if (this.props.validation.length)
-            this.validateInput(event.target.value);
-
+        event.preventDefault();
         const data = {
             id: event.target.id,
             value: event.target.value
@@ -26,37 +15,13 @@ export default class Input extends Component {
         if (this.props.dataKey !== undefined)
             data.key = this.props.dataKey;
 
-        this.props.onUpdate(data);
         this.setState({ value: event.target.value });
-    };
-
-    validateInput = (value) => {
-        this.props.validation.forEach(item => {
-            const result = item(value);
-
-            if (result) {
-                this.setState({
-                    hasError: true,
-                    errorMessage: result
-                });
-                this.props.handleError(true);
-            } else {
-                this.setState({
-                    hasError: false,
-                    errorMessage: ''
-                });
-                this.props.handleError(false);
-            }
-        });
-    };
-
-    hasErrorHandler = () => {
-        this.props.handleError(true);
+        this.props.onUpdate(data);
     };
 
     handleBlur = (event) => {
         event.preventDefault();
-        this.setState({ isBlurred: true });
+        this.props.handleOnBlur(event.target.id, true);
     };
 
     render() {
@@ -73,9 +38,6 @@ export default class Input extends Component {
                     autoComplete="off"
                     disabled={this.props.disabled || ''}
                 />
-                <div className="form-error">
-                    {this.state.hasError && this.state.isBlurred ? <p>{this.state.errorMessage}</p> : ''}
-                </div>
             </div>
         )
     }
